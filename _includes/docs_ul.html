@@ -1,0 +1,13 @@
+{% assign items = include.items %}
+
+{% for item in items %}
+  {% assign item_url = item | prepend:"/docs/" | append:"/" %}
+  
+  {% for p in site.docs %}
+    {% if p.url == item_url %}
+      <li class="{% if page.url == item_url %}active{% endif %}"><a href="{{ site.url }}{{ p.url }}">{{ p.title }}</a></li>
+    {% endif %}
+  {% endfor %}
+
+{% endfor %}
+

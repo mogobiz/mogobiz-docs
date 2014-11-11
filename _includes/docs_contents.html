@@ -1,0 +1,6 @@
+<ul class="nav nav-pills nav-stacked">
+    {% for section in site.data.docs %}
+    <h4>{{ section.title }}</h4>
+    {% include docs_ul.html items=section.docs %}
+    {% endfor %}
+</ul>

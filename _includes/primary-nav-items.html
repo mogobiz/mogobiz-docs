@@ -1,0 +1,17 @@
+<ul class="nav nav-pills">
+  <li class="{% if page.overview %}active{% endif %}">
+    <a href="/">Home</a>
+  </li>
+  <li class="{% if page.url contains '/docs/' %}active{% endif %}">
+    <a href="/docs/home/">Documentation</a>
+  </li>
+  <li class="{% if page.author %}active{% endif %}">
+    <a href="/news/">News</a>
+  </li>
+  <li>
+    <a href="{{ site.help_url }}">Help</a>
+  </li>
+  <li>
+    <a href="{{ site.repository }}">View on GitHub</a>
+  </li>
+</ul>
