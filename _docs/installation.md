@@ -6,102 +6,336 @@ next_section: usage
 permalink: /docs/installation/
 ---
 
-Getting Jekyll installed and ready-to-go should only take a few minutes. If it
-ever becomes a pain in the ass, please [file an
-issue]({{ site.repository }}/issues/new) (or submit a pull request)
-describing the issue you encountered and how we might make the process easier.
 
-### Requirements
+You may install Mogobiz using one of the two ways below:
 
-Installing Jekyll is easy and straight-forward, but there are a few requirements
-you’ll need to make sure your system has before you start.
+1. Through manual setup
 
-- [Ruby](http://www.ruby-lang.org/en/downloads/) (including development
-  headers)
-- [RubyGems](http://rubygems.org/pages/download)
-- Linux, Unix, or Mac OS X
-- [NodeJS](http://nodejs.org), or another JavaScript runtime (for
-  CoffeeScript support).
+2. By finding and downloading one of the preconfigured dockers from the Mogobiz docker repository
 
-<div class="note info">
-  <h5>Running Jekyll on Windows</h5>
-  <p>
-    While Windows is not officially supported, it is possible to get it running
-    on Windows. Special instructions can be found on our
-    <a href="../windows/#installation">Windows-specific docs page</a>.
-  </p>
-</div>
+### Manual Setup
 
-## Install with RubyGems
-
-The best way to install Jekyll is via
-[RubyGems](http://rubygems.org/pages/download). At the terminal prompt,
-simply run the following command to install Jekyll:
-
-{% highlight bash %}
-$ gem install jekyll
+#### Database setup
+Create a database schema and a user. The user should be granted the rights to create tables and sequences.
+The PostgreSQL syntax would be
+{% highlight sql %}
+create role mogobiz password 'changeit' valid until 'infinity';
+create database mogobiz with encoding='UTF8' owner=mogobiz;
+grant all on database mogobiz to mogobiz;
 {% endhighlight %}
 
-All of Jekyll’s gem dependencies are automatically installed by the above
-command, so you won’t have to worry about them at all. If you have problems
-installing Jekyll, check out the [troubleshooting](../troubleshooting/) page or
-[report an issue]({{ site.repository }}/issues/new) so the Jekyll
-community can improve the experience for everyone.
+Right after starting the Commerce Manager for the first time, we'll limit the user rights.
 
-<div class="note info">
-  <h5>Installing Xcode Command-Line Tools</h5>
-  <p>
-    If you run into issues installing Jekyll's dependencies which make use of
-    native extensions and are using Mac OS X, you will need to install Xcode
-    and the Command-Line Tools it ships with. Download in
-    <code>Preferences &#8594; Downloads &#8594; Components</code>.
-  </p>
-</div>
+#### Media Store Setup
 
-## Pre-releases
-
-In order to install a pre-release, make sure you have all the requirements
-installed properly and run:
-
+Create de folder that will be accessible from the Commerce Manager and from the Commerce Server. This folder usually host all the graphic resources.
 {% highlight bash %}
-gem install jekyll --pre
+$ mkdir /data/mogobiz
 {% endhighlight %}
 
-This will install the latest pre-release. If you want a particular pre-release,
-use the `-v` switch to indicate the version you'd like to install:
+#### Elasticsearch setup
+Download [elasticsearch] and follow the installation instructions.
+Add the following setting to the config/elasticsearch.yml file
 
-{% highlight bash %}
-gem install jekyll -v '2.0.0.alpha.1'
+{% highlight yaml %}
+script.disable_dynamic = false
 {% endhighlight %}
 
-If you'd like to install a development version of Jekyll, the process is a bit
-more involved. This gives you the advantage of having the latest and greatest,
-but may be unstable.
+#### Commerce Manager Setup
+In the 'conf' folder, update the mogobiz-config.groovy file
 
-{% highlight bash %}
-$ git clone git://github.com/jekyll/jekyll.git
-$ cd jekyll
-$ script/bootstrap
-$ bundle exec rake build
-$ ls pkg/*.gem | head -n 1 | xargs gem install -l
+##### Database Settings
+{% highlight groovy %}
+dataSource {
+// username and password set when creating the database
+    username = "mogobiz"
+    password = "changeit"
+
+// For a PostgreSQL database, uncomment the lines below
+    dialect = "org.hibernate.dialect.PostgreSQLDialect"
+    driverClassName = "org.postgresql.Driver"
+    url = "jdbc:postgresql://localhost/mogobiz"
+
+// For a MySQL database, uncomment the lines below
+//    dialect = "org.hibernate.dialect.MySQLDialect"
+//    driverClassName = "com.mysql.jdbc.Driver"
+//    url = "jdbc:mysql://localhost/mogobiz"
+
+// For a Oracle database, uncomment the lines below
+//    dialect = "com.mogobiz.hibernate.OracleDialect"
+//    driverClassName = "oracle.jdbc.driver.OracleDriver"
+//    url = "jdbc:oracle:thin:@192.168.184.133:1521:orcl"
+
+// For a Derby database, uncomment the lines below
+//    dialect = "org.hibernate.dialect.DerbyDialect"
+//    driverClassName = "org.apache.derby.jdbc.ClientDriver"
+//    url = "jdbc:derby://localhost:1527//Users/hayssams/tmp/db/mogobiz"
+}
 {% endhighlight %}
 
-## Optional Extras
+##### Import Job Setup
+The list of countries the Commerce Manager should import is set in the 'importCountries' section.
+Once imported, The list will be imported again if and only if the files modification date is higher than the last imported date.
 
-There are a number of (optional) extra features that Jekyll supports that you
-may want to install, depending on how you plan to use Jekyll. These extras
-include LaTeX support, and the use of alternative content rendering engines.
-Check out [the extras page](../extras/) for more information.
+{% highlight groovy %}
+importCountries {
+    cron = '0 * * * * ?' // every minute
+    codes = 'FR,GB,SN' // set to an empty string to import all countries
+    dir = "/data/mogopay/import/countries" // Path to the directory containing reference files
+}
+{% endhighlight %}
 
-<div class="note">
-  <h5>ProTip™: Enable Syntax Highlighting</h5>
-  <p>
-    If you’re the kind of person who is using Jekyll, then chances are you’ll
-    want to enable syntax highlighting using <a href="http://pygments.org/">Pygments</a>
-    or <a href="https://github.com/jayferd/rouge">Rouge</a>. You should really
-    <a href="../templates/#code-snippet-highlighting">check out how to
-    do that</a> before you go any farther.
-  </p>
-</div>
+##### Catalog Import Folder
+This folder is the temporary folder used for importing and exporting catalogs.
+{% highlight groovy %}
+impex  {
+    path = '/tmp/impex'
+}
+{% endhighlight %}
 
-Now that you’ve got everything installed, let’s get to work!
+##### Media Path
+Location to the images used on the online store.
+
+{% highlight groovy %}
+resources {
+    path = '/data/mogobiz' // reference the Media Store directory 
+    url = "http://mogobiz.ebiznext.com/mogobiz"
+}
+{% endhighlight %}
+
+
+##### Superadmin credentials
+Set the super user credentials. Password is encrypted using SHA-256
+{% highlight groovy %}
+superadmin {
+    login = 'admin@mogobiz.com'
+    email = 'admin@mogobiz.com'
+    password = '00810cf8b94d6fcb9c5de484d3bec4187620b3e2876e59aab90d852fe0f18fb6' // changeit
+}
+{% endhighlight %}
+
+##### Email configuration
+Used for resetting user password and to confirm user email.
+
+{% highlight groovy %}
+// email confirmation
+emailConfirmation {
+    from = 'mogobiz@gmail.com'
+    // 24hr 1000 * 60 * 60 * 24
+    maxAge = 86400000 // Lifetime of the confirmation link exchanged with the end user.
+}
+
+grails {
+    mail {
+        from = 'mogobiz@gmail.com'
+        host = 'smtp.gmail.com'
+        port = 465
+        username = 'mogobiz@gmail.com'
+        password = '*****'
+        props = ['mail.smtp.auth'                  : 'true',
+                 'mail.smtp.socketFactory.port'    : '465',
+                 'mail.smtp.socketFactory.class'   : 'javax.net.ssl.SSLSocketFactory',
+                 'mail.smtp.socketFactory.fallback': 'false']
+    }
+}
+{% endhighlight %}
+
+##### Translation and Access Keys
+List of languages proposed for translation and 16char secret used to encode data in email links.
+{% highlight groovy %}
+application {
+    languages = ['fr', 'en', 'de', 'es']
+    secret = "1234567890123456"
+    demo = true // Setting it to true creates a sample store 
+}
+{% endhighlight %}
+
+The default sample store is created with the user `partner@mogobiz.com` and password `changeit`.
+
+
+
+
+
+##### Commerce Manager public URL
+The server URL is the URL the end user must use to access the Manager.
+{% highlight groovy %}
+grails {
+    serverURL = "http://store.mogobiz.com/mogobiz"
+}
+{% endhighlight %}
+
+#### Commerce Server Setup
+The Commerce server setup configration files are located in the `conf` directory. The following files need to be configured :
+
+1. session.conf
+2. elasticsearch.conf
+3. mogopay.conf
+4. mogobiz.conf
+5. application.conf
+
+If you use OAuth service they you will have to configure the `auth.conf` file
+If you use Mobiel Notification services then you will have to configure the `notify.conf` file
+
+##### Elasticsearch Configuration
+
+<table  class="table">
+  <thead>
+  <tr>
+  <th>
+  Property
+  </th>
+  <th>
+  Type
+  </th>
+  <th>
+  Default value
+  </th>
+    <th>
+  Description
+  </th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td>
+    elasticsearch.data.format
+    </td>
+    <td>
+    String
+    </td>
+    <td>
+    yyyy-MM-dd'T'HH:mm:ss.SSSZZ
+    </td>
+    <td>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    host
+    </td>
+    <td>
+    String
+    </td>
+    <td>
+    localhost
+    </td>
+    <td>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    port
+    </td>
+    <td>
+    Long
+    </td>
+    <td>
+    9300
+    </td>
+    <td>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    http.port
+    </td>
+    <td>
+    Long
+    </td>
+    <td>
+    9200
+    </td>
+    <td>
+    </td>
+    </tr>
+
+    <tr>
+    <td>
+    cluster
+    </td>
+    <td>
+    String
+    </td>
+    <td>
+    elasticsearch
+    </td>
+    <td>
+    </td>
+    </tr>
+  </tbody>
+</table>
+{% highlight groovy %}
+elasticsearch {
+  date.format = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ"
+  host = "localhost"
+  http.port = 9200
+  port = 9300
+  cluster = "elasticsearch"
+}
+{% endhighlight %}
+
+##### Session Configuration
+
+<table  class="table">
+  <thead>
+  <tr>
+  <th>
+  Property
+  </th>
+  <th>
+  Type
+  </th>
+  <th>
+  Default value
+  </th>
+    <th>
+  Description
+  </th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td>
+    session.esindex
+    </td>
+    <td>
+    String
+    </td>
+    <td>
+    mogosession
+    </td>
+    <td>
+    Elasticsearch index name where the user sessions will be stores
+    </td>
+    </tr>
+    <tr>
+    <td>
+    session.maxage
+    </td>
+    <td>
+    Long
+    </td>
+    <td>
+    3600
+    </td>
+    <td>
+    Session validity in seconds
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+{% highlight groovy %}
+session {
+  esindex ="mogosession"
+  maxage = 3600
+}
+{% endhighlight %}
+
+
+
+[elasticsearch]: http://www.elasticsearch.com/
+

@@ -6,23 +6,25 @@ next_section: installation
 permalink: /docs/quickstart/
 ---
 
-For the impatient, here's how to get a boilerplate Jekyll site up and running.
+Mogobiz is an open source REST based framework to build rich ecommerce applications offering personalized user shopping experience.
+Mogobiz gives you full access to the source code to allow you to easily develop custom features.
 
-{% highlight bash %}
-~ $ gem install jekyll
-~ $ jekyll new myblog
-~ $ cd myblog
-~/myblog $ jekyll serve
-# => Now browse to http://localhost:4000
-{% endhighlight %}
+The mogobiz platform is comprised of :
 
-If you wish to install jekyll into the current directory, you can do so by alternatively running `jekyll new .` instead of a new directory name.
+1. Commerce Manager : This application allows you to administer your store including products, catalogs, promotions
 
-That's nothing, though. The real magic happens when you start creating blog
-posts, using the front matter to control templates and layouts, and taking
-advantage of all the awesome configuration options Jekyll makes available.
+2. Commerce server : This is a collection of REST services to which your frontend application connects to engage with customers and deliver products. The Commerce server may also be configured to execute a set of analytics services to deliver personalized content based on proven state of the art machine learning algorithms.
 
-If you're running into problems, ensure you have all the [requirements
-installed][Installation].
+3. FrontEnd Components : For improved productivity and better user experience and more reactive site management, Mogobiz offer ready to use widgets to make building the frontend a snap.
+
+4. Master database : This SQL database securily host store metadata and user transactions 
+
+5. Media store : Usually the file system that hosts images and videos displayed on the online store.
+
+6. Search Engine : Mogobiz rely on elasticsearch to display products / suggestions and business facets in near-realtime
+
+![alt text](/img/mogobiz-archi.png "Logo Title Text 1")
+
+To install Mogobiz, simply follow the [Installation] instructions.
 
 [Installation]: /docs/installation/
