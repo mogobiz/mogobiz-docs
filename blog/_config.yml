@@ -7,8 +7,8 @@ permalink:		pretty
 
 # Setup
 title:			'Mogobiz Blog'
-url:			http://www.ebiznext.com/mogobiz/blog
-baseurl:		/mogobiz/blog
+url:			http://www.mogobiz.com/blog
+baseurl:		/blog
 encoding:		utf-8
 paginate:		4
 
