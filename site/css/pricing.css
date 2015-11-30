@@ -1,0 +1,29 @@
+.pricing .pricingTable th{
+	padding-top: 30px;
+	color: #4D4E53;
+}
+
+.pricing .pricingTable td.bottom{
+	vertical-align: bottom;
+}
+
+.pricing .pricingTable td.noBorder{
+	border-top-width: 0px;
+}
+
+.pricing .pricingTable td.space{
+	padding-top: 20px;
+}
+
+.pricing .pricingTable td ul{
+	padding-left: 20px;
+	margin-bottom: 0px;
+}
+
+.pricing .pricingTable td ul li{
+	color: #FF0000;
+}
+
+.pricing .pricingTable td ul li span{
+	color: #54565B;
+}

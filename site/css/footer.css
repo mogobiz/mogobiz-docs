@@ -1,0 +1,42 @@
+.footer{
+	margin-top: 30px;
+	padding: 47px 0px;
+	background: #2F3035 url(../images/footer-bg.png) no-repeat;
+	color: #FFFFFF;
+}
+
+.footer div a{
+	text-decoration: none;
+}
+
+.footer div a.titleMenu{
+	color: #FFFFFF;
+}
+
+.footer div div.subMenu{
+	margin-top: 3px;
+}
+
+.footer div div.subMenu a{
+	color: #B0B1B3;
+}
+
+.footer a.mailLink, .footer a.mailLink:hover, .footer a.mailLink:active, .footer a.mailLink:visited{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+/* Phone Footer */
+@media (max-width: 767px){
+	.footer{text-align: center;}
+	.footer .footerBlock {margin-top: 25px;}
+}
+
+.footer .footerSocial .icon{
+    margin: 0px 8px;
+}
+
+.footer .footerSocial .touch{
+    width: 175px;
+    margin: 10px auto;
+}

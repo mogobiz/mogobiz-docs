@@ -1,0 +1,103 @@
+.home .carousel-indicators li{
+	border: 0px;
+	background-color: #FFFFFF;
+	margin: 1px 10px;
+}
+
+.home .carousel-indicators li.active{
+	background-color: #FF0000;
+}
+
+.home .carousel-indicators {
+	bottom: 0px;
+}
+
+.home .carousel-inner img{
+	cursor: pointer;
+}
+
+.home .social{
+	padding: 40px 0px;
+	background-color: #00AEBC;
+	color: #FFFFFF;
+}
+
+.home .social .icon{
+	margin-right: 3px;
+}
+
+.home .clients, .home .clients > div{
+	height: 140px;
+	background-color: #015570;
+}
+
+.home .clients img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	max-width: 90%;
+	margin-left: 5%;
+}
+
+.home .targets .block{
+	padding: 30px 0px;
+}
+
+.home .targets .block.last{
+	padding-bottom: 0px;
+}
+
+.home .targets .block .ellipse{
+	background-color: #808080;
+	width: 96px;
+	height: 96px;
+	border-radius: 48px;
+	-webkit-border-radius: 48px;
+	opacity: 0.09;
+}
+
+.home .targets .block .content div{
+	padding-right: 15px;
+}
+
+.home .targets  .block-separator{
+	background-color: #808080;
+	height: 1px;
+}
+
+/* Phone Styles */
+.home .phoneBanner{
+	background: url('../images/home/phone-banner.png') left bottom;
+	color: #FFFFFF;
+	height: 197px;
+	padding: 15px;
+}
+
+.home .phoneBanner .title{
+	line-height: 34px;
+	margin-bottom: 10px;
+}
+
+.home .phoneDemo{
+	background-color: #2F3035;
+	padding: 15px 10px;
+}
+
+.home .phoneDemo a, .home .phoneDemo a:active, .home .phoneDemo a:hover, .home .phoneDemo a:visited{
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 10px;
+	display: block;
+	width: 180px;
+	margin: 10px auto;
+}
+
+.home .phoneDemo a.demo{
+	background-color: #015570;
+}
+
+.home .phoneDemo a.contact{
+	background-color: #FF0000;
+}

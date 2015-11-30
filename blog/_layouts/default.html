@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {% include head.html %}
+
+	<body>
+		<div id="top" name="top"></div>
+		<div class="container size14">
+			{% include header.html %}
+			<div class="row top-space">
+				{{ content }}
+				{% include right.html %}
+			</div>
+			{% include footer.html %}
+		</div>
+	</body>
+</html>

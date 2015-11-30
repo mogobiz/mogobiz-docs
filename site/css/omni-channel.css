@@ -1,0 +1,9 @@
+.omniChannel .customLink{
+	display: inline-block;
+	padding: 10px 20px;
+	border: 2px solid #FF0000;
+}
+
+.omniChannel .customLink, .omniChannel .customLink:hover, .omniChannel .customLink:active, .omniChannel .customLink:visited{
+	text-decoration: none;
+}

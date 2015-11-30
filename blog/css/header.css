@@ -1,0 +1,20 @@
+.header{
+	height: 60px;
+	background-color: #00AEBC;
+}
+
+.header div[class^=col-]{
+	height: 60px;
+}
+
+.header div img{
+	margin-top: 7px;
+}
+
+.header div.link a{
+	text-decoration: none;
+	margin-right: 10px;
+	color: #FFFFFF;
+	display: inline-block;
+	padding-top: 19px;
+}

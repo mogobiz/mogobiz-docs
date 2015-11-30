@@ -1,0 +1,81 @@
+---
+layout: default
+---
+<div class="index">
+	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+		<div class="articles">
+			{% for post in paginator.posts %}
+			{% if forloop.index == 1 %}
+			<div class="row">
+			{% else %}
+			<div class="row top-space">
+			{% endif %}
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 noPadding">
+							{% for tag in post.tags %}
+							<a href="{{site.baseurl}}/tag/{{ tag }}" class="tagBtn full">{{ tag }}</a>
+							{% endfor %}
+							<div class="top-small-space size10 postTime"></div>
+							<div class="top-small-space size10 hidden postDate">{{ post.postDate }}</div>
+						</div>
+						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+							<div class="title">{{ post.title }}</div>
+							<div class="text">
+								{{ post.content | truncatewords: 40 | remove: '<p>' | remove: '</p>' }} <a href="{{ site.baseurl }}{{ post.url }}" class="blue RalewayExtraBold">Read More</a>
+							</div>
+						</div>
+					</div>
+					<div class="row top-small-space">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+							<a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ post.url }}" data-text="{{ site.title }} - {{ post.title }}">Tweet</a>
+							&nbsp;
+							<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+							<script type="IN/Share" data-url="{{ site.url }}{{ post.url }}" data-counter="right"></script>
+							<!-- <img src="{{site.baseurl}}/images/eye.png"/>&nbsp;<span class="size13">{{ post.views }} Views</span>
+							<img src="{{site.baseurl}}/images/like.png" class="left-space"/>&nbsp;<span class="size13">{{ post.likes }}</span> -->
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 noPadding">
+					{% if post.smallPic %}
+					<img src="{{ post.smallPic }}"/>
+					{% else if post.largePic %}
+					<img src="{{ post.largePic }}"/>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+		<!-- Pagination links -->
+		{% if paginator.total_pages > 1 %}
+		<div class="row top-space">
+			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+				<div class="row">
+					<div id="pagination" class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 size16 RalewayBold">
+						{% if paginator.previous_page %}
+						<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="blue">PREV</a>
+						{% endif %}
+
+						{% for page in (1..paginator.total_pages) %}
+						{% if page == paginator.page %}
+						<span>{{ page }}</span>
+						{% elsif page == 1 %}
+						<a href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}" class="blue">{{ page }}</a>
+						{% else %}
+						<a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}" class="blue">{{ page }}</a>
+						{% endif %}
+						{% endfor %}
+
+						{% if paginator.next_page %}
+						<a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="blue">NEXT</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>

@@ -1,0 +1,61 @@
+body{
+	background-color: #FFFFFF;
+	color: #54565B;
+	padding: 0px;
+	font-family: Raleway-Bold;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
+.customH1{font-size: 24px; line-height: 28px; font-family: Raleway-ExtraBold;}
+.customH2{font-size: 20px; line-height: 28px; font-family: Raleway-ExtraBold;}
+
+.textStyle1{font-size: 12px; line-height: 18px; font-family: Raleway-Medium;}
+.textStyle2{font-size: 12px; line-height: 20px; font-family: Raleway-SemiBold;}
+.textStyle3{font-size: 15px; line-height: 23px; font-family: Raleway-Medium;}
+
+.size12{font-size: 12px;}
+.size13{font-size: 13px;}
+.size14{font-size: 14px;}
+.size16{font-size: 16px;}
+.size17{font-size: 17px;}
+.size18{font-size: 18px;}
+.size19{font-size: 19px;}
+.size20{font-size: 20px;}
+.size21{font-size: 21px;}
+.size32{font-size: 32px;}
+
+.RalewaySemiBold{font-family: Raleway-SemiBold;}
+.RalewayExtraBold{font-family: Raleway-ExtraBold;}
+.RalewayMedium{font-family: Raleway-Medium;}
+.RalewayLight{font-family: Raleway-Light;}
+
+.top-space{margin-top: 25px;}
+.top-small-space{margin-top: 10px;}
+.top-big-space{margin-top: 50px;}
+
+.bottom-space{margin-bottom: 25px;}
+.bottom-small-space{margin-bottom: 10px;}
+.bottom-big-space{margin-bottom: 50px;}
+
+@media (min-width: 768px){
+	.noPadding{padding: 0px !important;}
+}
+
+.noMargin{margin: 0px !important;}
+
+.red{color: #FF0000;}
+
+a{color: #54565B;}
+
+a.red:hover{color: #CC0608;}
+
+div.blockBlue{
+	background-color: #015570;
+	color: #FFFFFF;
+	padding: 14px 10px;
+}
+
+.fullWidth{
+	max-width: 100%;
+}

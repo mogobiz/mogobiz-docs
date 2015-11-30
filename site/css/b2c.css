@@ -1,0 +1,44 @@
+.b2c .block1 .customH1{
+	margin: 0px 0px 40px 0px;
+}
+
+.b2c .block1 .contact{
+	background-color: #00AEBC;
+	color: #FFFFFF;
+	padding: 23px 17px;
+	margin-top: 90px;
+}
+
+@media (max-width: 768px){
+	.b2c .block1 .contact{
+		margin: 10px auto;
+		max-width: 350px;
+		width: 96%;
+	}
+}
+
+.b2c .block1 .contact a{
+	color: #015570;
+	text-decoration: none;
+}
+
+.b2c .block1 .separator{
+	background-color: #9A9B9D;
+	height: 1px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+@media (min-width: 768px) and (max-width: 992px){
+	.b2c .block1, .b2c .block2 {
+		padding: 0px 15px;
+	}
+}
+
+.b2c .block2{
+	margin-bottom: 30px;
+}
+
+.b2c .block2 .customH2{
+	margin: 10px 0px 15px 0px;
+}

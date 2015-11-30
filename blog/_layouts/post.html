@@ -1,0 +1,32 @@
+---
+layout: default
+---
+<div class="post">
+	<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+		<div class="size34">{{ page.title }}</div>
+		<div class="size13 top-small-space">
+			<span class="RalewaySemiBold">by {{ page.author }}</span>
+			<span class="left-space postTime"></span>
+			<span class="hidden postDate">{{ page.postDate }}</span>
+			<a href="https://twitter.com/share" class="twitter-share-button left-big-space" data-url="{{ site.url }}{{ page.url }}" data-text="{{ site.title }} - {{ page.title }}">Tweet</a>
+			&nbsp;
+			<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+			<script type="IN/Share" data-url="{{ site.url }}{{ page.url }}" data-counter="right"></script>
+			<!-- <img src="{{site.baseurl}}/images/eye.png" class="left-big-space"/>&nbsp;<span class="size13">{{ page.views }} Views</span>
+			<img src="{{site.baseurl}}/images/like.png" class="left-big-space"/>&nbsp;<span class="size13">{{ page.likes }}</span>
+			<span class="left-space">{{ page.shares }} Shares</span> -->
+		</div>
+		{% if page.largePic %}
+		<img class="top-small-space" src="{{ page.largePic }}"/>
+		{% else if page.smallPic %}
+		<img class="top-small-space" src="{{ page.smallPic }}"/>
+		{% endif %}
+		<div class="top-space">
+		{{ content }}
+		</div>
+		<div class="top-space size13">
+			<span class="RalewaySemiBold">Category </span>{{ page.category }}
+		</div>
+		<div id="disqus_thread"></div>
+	</div>
+</div>

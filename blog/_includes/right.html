@@ -1,0 +1,138 @@
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 rightCol">
+	<div class="block searchBox">
+		<input type="text" class="searchText" id="search" name="search" placeholder="Search"/>
+		<button class="searchIcon"></button>
+	</div>
+
+	<div class="tabPanel top-space block">
+		<div class="listBox">
+			<table class="tabs">
+				<tbody>
+					<tr>
+						<td class="bordered text-center active size13" id="recentTab">Recent</td>
+						<td class="bordered text-center inactive size13" id="popularTab">Popular</td>
+						<td class="text-center inactive size13" id="commentsTab">Comments</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="recent">
+				<div class="activity">
+					<div class="profile">
+						<img src="{{site.baseurl}}/images/profile.png"/>
+					</div>
+					<div class="size12">
+						<div class="RalewayBold top-mini-space">Post Format : Standard</div>
+						<div class="top-mini-space"><span class="glyphicon glyphicon-time"></span>&nbsp;June, 07, 2015</div>
+					</div>
+				</div>
+				<div class="separator"></div>
+				<div class="activity">
+					<div class="profile">
+						<img src="{{site.baseurl}}/images/profile.png"/>
+					</div>
+					<div class="size12">
+						<div class="RalewayBold top-mini-space">Post Format : Standard</div>
+						<div class="top-mini-space"><span class="glyphicon glyphicon-time"></span>&nbsp;June, 07, 2015</div>
+					</div>
+				</div>
+				<div class="separator"></div>
+				<div class="activity">
+					<div class="profile">
+						<img src="{{site.baseurl}}/images/profile.png"/>
+					</div>
+					<div class="size12">
+						<div class="RalewayBold top-mini-space">Post Format : Standard</div>
+						<div class="top-mini-space"><span class="glyphicon glyphicon-time"></span>&nbsp;June, 07, 2015</div>
+					</div>
+				</div>
+				<div class="separator"></div>
+				<div class="activity">
+					<div class="profile">
+						<img src="{{site.baseurl}}/images/profile.png"/>
+					</div>
+					<div class="size12">
+						<div class="RalewayBold top-mini-space">Post Format : Standard</div>
+						<div class="top-mini-space"><span class="glyphicon glyphicon-time"></span>&nbsp;June, 07, 2015</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="popular">
+				<div class="article">
+					<div class="size16 RalewaySemiBold">Title of an article most popular in share or in likes choose article</div>
+					<div class="size12 top-mini-space">
+						3 days ago<span class="icon">9&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="article">
+					<div class="size16 RalewaySemiBold">Title of an article most popular in share or in likes choose article</div>
+					<div class="size12 top-mini-space">
+						3 days ago<span class="icon">9&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="article">
+					<div class="size16 RalewaySemiBold">Title of an article most popular in share or in likes choose article</div>
+					<div class="size12 top-mini-space">
+						3 days ago<span class="icon">9&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="article last">
+					<div class="size16 RalewaySemiBold">Title of an article most popular in share or in likes choose article</div>
+					<div class="size12 top-mini-space">
+						3 days ago<span class="icon">9&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="comments">
+				<div class="comment">
+					<div class="size13 RalewayBold">Jean0034</div>
+					<div class="size13 RalewaySemiBold top-mini-space">
+						This is a comment from a visitor (...)
+						<span class="icon size12">78&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="comment">
+					<div class="size13 RalewayBold">Jacques3435</div>
+					<div class="size13 RalewaySemiBold top-mini-space">
+						This is a comment from a visitor (...)
+						<span class="icon size12">23&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="comment">
+					<div class="size13 RalewayBold">Billy3423</div>
+					<div class="size13 RalewaySemiBold top-mini-space">
+						This is a comment from a visitor (...)
+						<span class="icon size12">12&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+				<div class="comment last">
+					<div class="size13 RalewayBold">Caro523470_dr</div>
+					<div class="size13 RalewaySemiBold top-mini-space">
+						This is a comment from a visitor (...)
+						<span class="icon size12">10&nbsp;<span class="glyphicon glyphicon-comment"></span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="social block top-space text-center">
+		<div class="RalewayExtraBold size17">Stay connected</div>
+		<div class="separator top-mini-space"></div>
+		<div class="top-mini-space">
+			<a href="http://www.twitter.com" target="_blank"><img src="{{site.baseurl}}/images/twitter1.png"/>&nbsp;</a>
+			<a href="http://www.linkedin.com" target="_blank">&nbsp;<img src="{{site.baseurl}}/images/linkedin1.png"/></a>
+		</div>
+	</div>
+
+	<div class="tags top-space text-center">
+		<div class="RalewayExtraBold size17">Tags</div>
+		<div class="separator top-mini-space"></div>
+		<div class="top-mini-space links">
+			{% for tag in site.tags %}
+				<a href="{{site.baseurl}}/tag/{{ tag[0] }}" class="tagBtn">{{ tag[0] }}</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>

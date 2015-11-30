@@ -1,0 +1,16 @@
+# Dependencies
+markdown:		kramdown
+highlighter:	pygments
+
+# Permalinks
+permalink:		pretty
+
+# Setup
+title:			'Mogobiz Blog'
+url:			http://www.ebiznext.com/mogobiz/blog
+baseurl:		/mogobiz/blog
+encoding:		utf-8
+paginate:		4
+
+author:
+  name:			'Ahmad Ibrahim'

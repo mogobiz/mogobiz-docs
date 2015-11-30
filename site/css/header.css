@@ -1,0 +1,141 @@
+.header{
+	height: 60px;
+	background-color: #015570;
+}
+
+.header div[class^=col-]{
+	height: 60px;
+}
+
+.header div img{
+	margin-top: 7px;
+}
+
+.header div.links a{
+	text-decoration: none;
+	margin-right: 10px;
+	color: #FFFFFF;
+	display: inline-block;
+	padding-top: 19px;
+}
+
+/* Header Nav */
+.defaultNav{
+	background: #FF0000;
+}
+
+.defaultNav > div > nav > ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+.defaultNav > div > nav > ul > li {
+	float: left;
+	display: inline;
+	list-style: none;
+}
+
+.defaultNav > div > nav > ul > li:hover {
+	background: #CC0608;
+}
+
+.defaultNav > div > nav > ul > li > span > a {
+	display: block;
+	text-transform: uppercase;
+	padding: 5px 12px;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+.defaultNav > div > nav > ul > li > span > a{
+	text-decoration: none;
+}
+
+.defaultNav > div > nav > ul > li > ul {
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	background: #FF0000;
+}
+
+.defaultNav > div > nav > ul > li > ul > li {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.defaultNav > div > nav > ul > li > ul > li > a {
+	display: block;
+	text-transform: uppercase;
+	padding: 4px 10px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.defaultNav > div > nav > ul > li > ul > li:hover > a {
+	color:#000000;
+}
+
+.defaultNav > div > nav > ul > li > ul.fallback {
+	display:none;
+	z-index: 10001;
+}
+
+.defaultNav > div > nav > ul > li:hover > ul.fallback {
+	display:block;
+}
+
+/* Phone Header */
+.phoneHeader{
+	min-height: 40px;
+}
+
+.phoneHeader div[class^=col-]{
+	min-height: 40px;
+}
+
+.phoneHeader div img{
+	margin-top: 4px;
+}
+
+.phoneHeader .navbar {
+	position: relative;
+	min-height: 40px;
+	margin-bottom: 0px;
+	border: none;
+}
+
+.phoneHeader .navbar-default {
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.phoneHeader .navbar-toggle {
+	margin: 4px 0px 0px 0px;
+	border: none;
+}
+
+.phoneHeader .navbar-default .navbar-toggle .icon-bar {
+	background-color: #4D4E53;
+}
+
+.phoneHeader .navbar-default .navbar-collapse  .navbar-nav ul {
+	padding-left: 25px;
+}
+
+.phoneHeader .navbar-default .navbar-collapse  .navbar-nav li {
+	list-style: none;
+}
+
+.phoneHeader .navbar-default .navbar-collapse  .navbar-nav a, .phoneHeader .navbar-default .navbar-collapse  .navbar-nav span {
+	border-bottom: 1px solid #EFEFEF;
+	display: block;
+	padding: 5px 0px;
+	color: #999999;
+	text-decoration: none;
+}
+
+.phoneHeader .navbar-default .navbar-collapse  .navbar-nav a:hover, .phoneHeader .navbar-default .navbar-collapse  .navbar-nav a:active {
+	color: #4D4E53;
+	background-color: #F8F8F8;
+}

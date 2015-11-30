@@ -1,0 +1,31 @@
+.b2b .banner{
+	padding: 0px !important;
+}
+
+.b2b .contact{
+	background-color: #00AEBC;
+	color: #FFFFFF;
+	padding: 23px 17px;
+	max-width: 360px;
+	margin: auto;
+	margin-top: 25px;
+}
+
+.b2b .contact .number{
+	font-size: 24px;
+	color: #015570;
+}
+
+.b2b ul{
+	padding-left: 20px;
+	margin-bottom: 0px;
+	margin-top: 15px;
+}
+
+.b2b li{
+	color: #FF0000;
+}
+
+.b2b li span{
+	color: #54565B;
+}

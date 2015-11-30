@@ -1,0 +1,13 @@
+.bestOfBreed ul{
+	padding-left: 20px;
+	margin-bottom: 0px;
+	margin-top: 15px;
+}
+
+.bestOfBreed li{
+	color: #FF0000;
+}
+
+.bestOfBreed li span{
+	color: #54565B;
+}

@@ -1,0 +1,16 @@
+.footer{
+	margin-top: 30px;
+}
+
+.footer .separator{
+	height: 1px;
+	background-color: #54565B;
+}
+
+.footer a{
+	text-decoration: none;
+}
+
+.footer a.first{
+	padding-right: 40px;
+}
