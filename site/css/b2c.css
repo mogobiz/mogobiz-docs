@@ -35,10 +35,13 @@
 	}
 }
 
-.b2c .block2{
-	margin-bottom: 30px;
-}
-
 .b2c .block2 .customH2{
 	margin: 10px 0px 15px 0px;
+}
+
+.b2c .block2 .separator{
+	background-color: #C0C0C0;
+	height: 2px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

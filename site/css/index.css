@@ -3,8 +3,6 @@ body{
 	color: #54565B;
 	padding: 0px;
 	font-family: Raleway-Bold;
-	-webkit-user-select: none;
-	-moz-user-select: none;
 }
 
 .customH1{font-size: 24px; line-height: 28px; font-family: Raleway-ExtraBold;}

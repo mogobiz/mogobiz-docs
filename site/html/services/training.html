@@ -6,19 +6,19 @@
 
 		<title>MOGOBIZ - Training</title>
 
-		<link rel="shortcut icon" href="/mogobiz/images/favicon.ico"/>
+		<link rel="shortcut icon" href="/images/favicon.ico"/>
 
-		<link rel="stylesheet" type="text/css" href="/mogobiz/css/main.css"/>
-		<link rel="stylesheet" type="text/css" href="/mogobiz/css/services.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/services.css"/>
 
-		<script type="text/javascript" src="/mogobiz/js/jquery/jquery-2.1.4.js"></script>
-		<script type="text/javascript" src="/mogobiz/js/bootstrap/bootstrap.js"></script>
-		<script type="text/javascript" src="/mogobiz/js/share.js"></script>
+		<script type="text/javascript" src="/js/jquery/jquery-2.1.4.js"></script>
+		<script type="text/javascript" src="/js/bootstrap/bootstrap.js"></script>
+		<script type="text/javascript" src="/js/share.js"></script>
 	</head>
 	<body>
 		<div class="services container size14">
 			<!-- Header -->
-			<div class="includePage clearfix" src="/mogobiz/html/header.html"></div>
+			<div class="includePage clearfix" src="/html/header.html"></div>
 
 			<div class="top-space row">
 				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 col-sm-offset-0 col-xs-offset-0">
@@ -31,11 +31,11 @@
 			<div class="top-space row">
 				<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 col-lg-offset-1 col-md-offset-1 col-sm-offset-0 col-xs-offset-0 top-space hidden-xs">
 					<div class="top-big-space separator"></div>
-					<div class="size15"><a href="/mogobiz/html/services/consulting.html" class="grey">Consulting</a></div>
+					<div class="size15"><a href="/html/services/consulting.html" class="grey">Consulting</a></div>
 					<div class="top-big-space separator"></div>
 					<div class="size15">Training &amp; Certification</div>
 					<div class="top-big-space separator"></div>
-					<div class="size15"><a href="/mogobiz/html/services/support.html" class="grey">Support</a></div>
+					<div class="size15"><a href="/html/services/support.html" class="grey">Support</a></div>
 					<div class="top-big-space separator"></div>
 				</div>
 				<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
@@ -132,7 +132,7 @@
 					</div>
 				</div>
 			</div>
-			<form action="MAILTO:info@mogobiz.com" method="POST"  enctype="text/plain">
+			<form action="" type="GET" target="_blank">
 				<div class="top-space row">
 					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-0 col-xs-offset-0">
 						<input type="text" class="top-small-space full" name="name" placeholder="Name"/>
@@ -152,7 +152,17 @@
 				</div>
 				<div class="top-space row">
 					<div class="col-lg-5 col-md-5 col-sm-8 col-xs-12 col-lg-offset-4 col-md-offset-4 col-sm-offset-2 col-xs-offset-0">
+						<fieldset class="captcha size12 pull-left">
+							<legend>CAPTCHA</legend>
+							This question is for testing whether you are a human visitor and to prevent automated spam submissions.
+							<img src="" class=" fullWidth"/>
+						</fieldset>
 						<div class="captcha pull-right top-small-space">
+							<span class="RalewayExtraBold size13">What code is in the image?&nbsp;<span class="glyphicon glyphicon-star"></span></span>
+							<input type="text" class="half" name="captcha"/>
+							<div class="textStyle1 info">
+								Enter the characters (without spaces) shown in the image
+							</div>
 							<div class="separator"></diV>
 							<button type="submit" class="submitBtn pull-right textStyle1">SEND</button>
 						</div>
@@ -161,7 +171,7 @@
 			</form>
 
 			<!-- Footer -->
-			<div class="includePage" src="/mogobiz/html/footer.html"></div>
+			<div class="includePage" src="/html/footer.html"></div>
 		</div>
 	</body>
 </html>
