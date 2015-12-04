@@ -1572,6 +1572,7 @@ paths:
         200:
           description: Ok.
           schema:
+            type: object
             properties:
               hasNext:
                 type: boolean
@@ -1618,7 +1619,6 @@ paths:
       responses:
         200:
           description: Ok.
-          schema:
         401:
           description: Unauthorized if user not connected or session expired.
 
@@ -4261,19 +4261,19 @@ definitions:
       product:
         type: array
         items:
-        $ref: "#/definitions/findProduct"
+          $ref: "#/definitions/findProduct"
       brand:
         type: array
         items:
-        $ref: "#/definitions/findBrand"
+          $ref: "#/definitions/findBrand"
       category:
         type: array
         items:
-        $ref: "#/definitions/findCategory"
+          $ref: "#/definitions/findCategory"
       tag:
         type: array
         items:
-        $ref: "#/definitions/findTag"
+          $ref: "#/definitions/findTag"
 
   findProduct:
     type: object
@@ -4294,7 +4294,6 @@ definitions:
         type: string
       category:
         type: object
-        items:
         required:
           - path
         properties:
