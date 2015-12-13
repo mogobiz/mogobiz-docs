@@ -83,7 +83,8 @@
                         "name": "deliveryStatus",
                         "in": "query",
                         "description": "Order delivery status.",
-                        "required": false
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "tags": [
@@ -870,6 +871,48 @@
                 }
             }
         },
+        "/list-shipping": {
+            "post": {
+                "summary": "Get all shipping prices.",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to get the list.",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/listShippingParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Cart"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/shppingPrice"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized account does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden if user not connected or session expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
         "/cart/payment/cancel": {
             "post": {
                 "summary": "Cancel payment",
@@ -926,7 +969,7 @@
                         "description": "Get sub categories of a category parent.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "categoryPath",
@@ -941,7 +984,7 @@
                         "description": "Get categories for brand.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "lang",
@@ -956,7 +999,7 @@
                         "description": "Get categories by promotion.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "size",
@@ -964,7 +1007,7 @@
                         "description": "Returned list size.",
                         "required": false,
                         "type": "integer",
-                        "fomat": "int32"
+                        "format": "int32"
                     }
                 ],
                 "tags": [
@@ -1007,7 +1050,7 @@
                         "description": "Get sub categories of a category parent.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "categoryPath",
@@ -1022,7 +1065,7 @@
                         "description": "Get categories for brand.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "lang",
@@ -1037,7 +1080,7 @@
                         "description": "Get categories by promotion.",
                         "required": false,
                         "type": "string",
-                        "fomat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "size",
@@ -1045,7 +1088,7 @@
                         "description": "Returned list size.",
                         "required": false,
                         "type": "integer",
-                        "fomat": "int32"
+                        "format": "int32"
                     }
                 ],
                 "tags": [
@@ -1383,10 +1426,10 @@
                                     }
                                 },
                                 "2": {
-                                    "type": "array"
-                                },
-                                "items": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             }
                         }
@@ -1700,40 +1743,10 @@
                         "description": "Ok.",
                         "schema": {
                             "type": "object",
-                            "items": null,
-                            "properties": {
-                                "hasNext": {
-                                    "type": "boolean"
-                                },
-                                "hasPrevious": {
-                                    "type": "boolean"
-                                },
-                                "maxItemsPerPage": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageOffset": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageSize": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "totalCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "list": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/externalDocs/product"
-                                    }
-                                }
+                            "description": "List of products",
+                            "externalDocs": {
+                                "description": "List of products",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/ListProducts.json"
                             }
                         }
                     }
@@ -1876,9 +1889,11 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/externalDocs/product"
+                            "type": "object",
+                            "description": "List of products",
+                            "externalDocs": {
+                                "description": "List of products",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/ListProducts.json"
                             }
                         }
                     }
@@ -1941,7 +1956,12 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/product"
+                            "type": "object",
+                            "description": "Product object",
+                            "externalDocs": {
+                                "description": "Product object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Product.json"
+                            }
                         }
                     }
                 }
@@ -1974,7 +1994,12 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/product"
+                            "type": "object",
+                            "description": "Product object",
+                            "externalDocs": {
+                                "description": "Product object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Product.json"
+                            }
                         }
                     }
                 }
@@ -2007,7 +2032,12 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/product"
+                            "type": "object",
+                            "description": "Product object",
+                            "externalDocs": {
+                                "description": "Product object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Product.json"
+                            }
                         }
                     }
                 }
@@ -2040,8 +2070,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Ok.",
-                        "schema": null
+                        "description": "Ok."
                     },
                     "401": {
                         "description": "Unauthorized if user not connected or session expired."
@@ -2080,7 +2109,7 @@
                     "401": {
                         "description": "Unauthorized if user not connected or session expired.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2113,9 +2142,11 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/externalDocs/suggestion"
+                            "type": "object",
+                            "description": "List of suggestion",
+                            "externalDocs": {
+                                "description": "Product object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/ListSuggestions.json"
                             }
                         }
                     }
@@ -2150,7 +2181,12 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/suggestion"
+                            "type": "object",
+                            "description": "Suggestion Object",
+                            "externalDocs": {
+                                "description": "Suggestion Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Suggestion.json"
+                            }
                         }
                     }
                 }
@@ -2213,40 +2249,10 @@
                         "description": "Ok.",
                         "schema": {
                             "type": "object",
-                            "items": null,
-                            "properties": {
-                                "hasNext": {
-                                    "type": "boolean"
-                                },
-                                "hasPrevious": {
-                                    "type": "boolean"
-                                },
-                                "maxItemsPerPage": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageOffset": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageSize": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "totalCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "list": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/externalDocs/coupon"
-                                    }
-                                }
+                            "description": "List of promotions",
+                            "externalDocs": {
+                                "description": "List of promotions",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/ListCoupons.json"
                             }
                         }
                     }
@@ -2273,13 +2279,18 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/coupon"
+                            "type": "object",
+                            "description": "Coupon Object",
+                            "externalDocs": {
+                                "description": "Coupon Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Coupon.json"
+                            }
                         }
                     },
                     "404": {
                         "description": "Resource not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2311,7 +2322,7 @@
                     "404": {
                         "description": "Resource not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2351,7 +2362,7 @@
                     "404": {
                         "description": "Resource not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2552,40 +2563,10 @@
                         "description": "Ok.",
                         "schema": {
                             "type": "object",
-                            "items": null,
-                            "properties": {
-                                "hasNext": {
-                                    "type": "boolean"
-                                },
-                                "hasPrevious": {
-                                    "type": "boolean"
-                                },
-                                "maxItemsPerPage": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageOffset": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "pageSize": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "totalCount": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "list": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/externalDocs/sku"
-                                    }
-                                }
+                            "description": "Sku Object",
+                            "externalDocs": {
+                                "description": "Sku Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Sku.json"
                             }
                         }
                     }
@@ -2612,13 +2593,18 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/sku"
+                            "type": "object",
+                            "description": "Sku Object",
+                            "externalDocs": {
+                                "description": "Sku Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Sku.json"
+                            }
                         }
                     },
                     "404": {
                         "description": "Sku not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2665,9 +2651,11 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/externalDocs/tag"
+                            "type": "object",
+                            "description": "List of tags",
+                            "externalDocs": {
+                                "description": "List of tags",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/ListTags.json"
                             }
                         }
                     }
@@ -2694,13 +2682,18 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/tag"
+                            "type": "object",
+                            "description": "Tag Object",
+                            "externalDocs": {
+                                "description": "Tag Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Tag.json"
+                            }
                         }
                     },
                     "404": {
                         "description": "Tag not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2725,13 +2718,18 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "#/externalDocs/tag"
+                            "type": "object",
+                            "description": "Tag Object",
+                            "externalDocs": {
+                                "description": "Tag Object",
+                                "url": "http://www.ebiznext.com/mogobiz/doc/biz/Json/Tag.json"
+                            }
                         }
                     },
                     "404": {
                         "description": "Tag not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2762,7 +2760,7 @@
                     "404": {
                         "description": "Invalid key.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2778,7 +2776,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     },
                     {
                         "name": "wishlist_uuid",
@@ -2786,7 +2784,7 @@
                         "description": "wishlist id.",
                         "required": false,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     }
                 ],
                 "tags": [
@@ -2796,13 +2794,13 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "definitions/wishlist"
+                            "$ref": "#/definitions/wishlist"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2818,7 +2816,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -2869,13 +2867,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2900,13 +2898,13 @@
                     "200": {
                         "description": "Ok.",
                         "schema": {
-                            "$ref": "definitions/wishlistSubList"
+                            "$ref": "#/definitions/wishlistSubList"
                         }
                     },
                     "404": {
                         "description": "Invalid token.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2922,7 +2920,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "params",
@@ -2947,13 +2945,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "409": {
                         "description": "Conflicted if sub list name already exist.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -2969,7 +2967,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -2977,7 +2975,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     }
                 ],
                 "tags": [
@@ -2990,13 +2988,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3012,7 +3010,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3020,7 +3018,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3028,7 +3026,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3044,13 +3042,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3066,7 +3064,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3074,7 +3072,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3082,7 +3080,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3095,13 +3093,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3117,7 +3115,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3125,7 +3123,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "params",
@@ -3150,19 +3148,19 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "409": {
                         "description": "Conflicted if product already exist.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3178,7 +3176,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3186,7 +3184,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "itemId",
@@ -3194,7 +3192,7 @@
                         "description": "Item Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3202,7 +3200,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3215,13 +3213,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist or item not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3237,7 +3235,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3245,7 +3243,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "idea",
@@ -3276,13 +3274,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3298,7 +3296,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3306,7 +3304,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "ideaId",
@@ -3314,7 +3312,7 @@
                         "description": "Idea Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3322,7 +3320,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3335,13 +3333,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist or idea not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3357,7 +3355,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3365,7 +3363,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "params",
@@ -3390,19 +3388,19 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "409": {
                         "description": "Conflicted if brand already exist.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3418,7 +3416,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3426,7 +3424,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "brandId",
@@ -3434,7 +3432,7 @@
                         "description": "Brand Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3442,7 +3440,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3455,13 +3453,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist or brand not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3477,7 +3475,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3485,7 +3483,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "params",
@@ -3510,19 +3508,19 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "409": {
                         "description": "Conflicted if category already exist.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -3538,7 +3536,7 @@
                         "description": "Wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "listId",
@@ -3546,7 +3544,7 @@
                         "description": "Sub wishlist Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "categoryId",
@@ -3554,7 +3552,7 @@
                         "description": "Category Id.",
                         "required": true,
                         "type": "string",
-                        "fromat": "uuid"
+                        "format": "uuid"
                     },
                     {
                         "name": "owner_email",
@@ -3562,7 +3560,7 @@
                         "description": "Wishlist owner email.",
                         "required": true,
                         "type": "string",
-                        "fromat": "email"
+                        "format": "email"
                     }
                 ],
                 "tags": [
@@ -3575,13 +3573,13 @@
                     "401": {
                         "description": "Unauthorized if invalid owner email.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     },
                     "404": {
                         "description": "Wishlist or category not found.",
                         "schema": {
-                            "$ref": "definitions/error"
+                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -5537,23 +5535,27 @@
             "properties": {
                 "product": {
                     "type": "array",
-                    "items": null,
-                    "$ref": "#/definitions/findProduct"
+                    "items": {
+                        "$ref": "#/definitions/findProduct"
+                    }
                 },
                 "brand": {
                     "type": "array",
-                    "items": null,
-                    "$ref": "#/definitions/findBrand"
+                    "items": {
+                        "$ref": "#/definitions/findBrand"
+                    }
                 },
                 "category": {
                     "type": "array",
-                    "items": null,
-                    "$ref": "#/definitions/findCategory"
+                    "items": {
+                        "$ref": "#/definitions/findCategory"
+                    }
                 },
                 "tag": {
                     "type": "array",
-                    "items": null,
-                    "$ref": "#/definitions/findTag"
+                    "items": {
+                        "$ref": "#/definitions/findTag"
+                    }
                 }
             }
         },
@@ -5582,7 +5584,6 @@
                 },
                 "category": {
                     "type": "object",
-                    "items": null,
                     "required": [
                         "path"
                     ],
@@ -5911,13 +5912,15 @@
                     "type": "string"
                 },
                 "dayOfBirth": {
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "monthOfBirth": {
-                    "type": "int32"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "default": {
-                    "description": "string"
+                    "type": "string"
                 }
             }
         },
@@ -6511,7 +6514,7 @@
                 },
                 "owner_email": {
                     "type": "string",
-                    "fomat": "email"
+                    "format": "email"
                 },
                 "product_sku": {
                     "type": "string"
@@ -6534,7 +6537,7 @@
                 },
                 "owner_email": {
                     "type": "string",
-                    "fomat": "email"
+                    "format": "email"
                 }
             }
         },
@@ -6554,7 +6557,7 @@
                 },
                 "owner_email": {
                     "type": "string",
-                    "fomat": "email"
+                    "format": "email"
                 }
             }
         },
@@ -6572,42 +6575,19 @@
                 },
                 "visibility": {
                     "type": "string",
-                    "fomat": "PUBLIC|PRIVATE|SHARED"
+                    "format": "PUBLIC|PRIVATE|SHARED"
                 },
                 "defaultIndicator": {
                     "type": "boolean"
                 },
                 "owner_email": {
                     "type": "string",
-                    "fomat": "email"
+                    "format": "email"
                 },
                 "externalCode": {
                     "type": "string"
                 }
             }
         }
-    },
-    "externalDocs": {
-        "product": {
-            "description": "Product JSON file",
-            "url": "/Json/Product.json"
-        },
-        "suggestion": {
-            "description": "Product JSON file",
-            "url": "/Json/Suggestion.json"
-        },
-        "coupon": {
-            "description": "Product JSON file",
-            "url": "/Json/Coupon.json"
-        },
-        "sku": {
-            "description": "Product JSON file",
-            "url": "/Json/Sku.json"
-        },
-        "tag": {
-            "description": "Product JSON file",
-            "url": "/Json/Tag.json"
-        }
     }
 }
-
