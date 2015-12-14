@@ -7,7 +7,6 @@ permalink:		pretty
 
 # Setup
 title:			'Mogobiz Documentation'
-#url:			http://localhost:4000/doc/user/
 url:			http://www.mogobiz.com/doc/user/
 baseurl:		/doc/user
 encoding:		utf-8
