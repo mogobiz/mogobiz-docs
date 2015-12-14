@@ -2715,17 +2715,6 @@ definitions:
         type: integer
         format: int32
 
-  listShippingParams:
-    type: object
-    required:
-      - cartProvider
-      - cartKeys
-    properties:
-      cartProvider:
-        type: string
-      cartKeys:
-        type: string
-
   selectShippingParams:
     type: object
     required:

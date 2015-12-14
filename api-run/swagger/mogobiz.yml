@@ -747,6 +747,32 @@ paths:
           schema:
             $ref: "#/definitions/error"
 
+
+  /cart/list-shipping-prices:
+    post:
+      summary: Get all shipping prices.
+      parameters:
+        - name: params
+          in: body
+          description: Parameters needed to get the list.
+          required: true
+          schema:
+            $ref: '#/definitions/listShippingPricesParams'
+      tags:
+        - Transaction
+      responses:
+        200:
+          description: OK.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/shppingPrice"
+        403:
+          description: Forbidden if user not connected or session expired.
+          schema:
+            $ref: "#/definitions/error"
+
+
 # Category Services
   /categories:
     get:
@@ -3746,6 +3772,42 @@ definitions:
         type: string
         format: date
 
+  shppingPrice:
+    type: object
+    required:
+      - shipmentId
+      - rateId
+      - provider
+      - service
+      - rateType
+      - price
+      - currencyCode
+      - currencyFractionDigits
+      - confirm
+    properties:
+      shipmentId:
+        type: string
+        format: uuid
+      rateId:
+        type: string
+        format: uuid
+      provider:
+        type: string
+      service:
+        type: string
+      rateType:
+        type: string
+      price:
+        type: integer
+        format: int64
+      currencyCode:
+        type: string
+      currencyFractionDigits:
+        type: integer
+        format: int32
+      confirm:
+        type: boolean
+
 # Shopping Cart Definitions
   shoppingCart:
     type: object
@@ -5057,4 +5119,15 @@ parameters:
         type: string
         format: email
       externalCode:
+        type: string
+
+  listShippingPricesParams:
+    type: object
+    required:
+      - cartProvider
+      - cartKeys
+    properties:
+      cartProvider:
+        type: string
+      cartKeys:
         type: string
