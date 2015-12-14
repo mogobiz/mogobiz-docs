@@ -1,0 +1,45 @@
+<div class="col-sm-12 col-sm-3 col-md-3 col-lg-3 leftMenu noPadding">
+	<div class="panel-group" id="accordion">
+		{% for dale in site.data.nav %}
+		{% assign index1 = forloop.index %}
+		<div class="panel panel-default {% if index1 == 1 %}first{% endif %} {% if index1 == site.data.nav.size %}last{% endif %}">
+			<div class="panel-heading">
+				<h4 class="panel-title {% if dale.subcategories != null %} collapsed{% endif %}">
+					{% if dale.subcategories != null %}
+					<a data-toggle="collapse" href="#{{ dale.id }}" class="collapsible">{{ dale.title }}</a>
+					{% else %}
+					<a href="{{ site.url }}{{ dale.href }}" id="{{ dale.id }}">{{ dale.title }}</a>
+					{% endif %}
+				</h4>
+			</div>
+			{% if dale.subcategories != null %}
+			<div id="{{ dale.id }}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<ul class="subMenu">
+						{% for subcategory in dale.subcategories %}
+						{% assign index2 = forloop.index %}
+						<li class="{% if subcategory.subcategories != null %}parent collapsed{% endif %}">
+							{% if subcategory.subcategories != null %}
+							<a data-toggle="collapse" href="#{{ dale.id }}-{{ subcategory.id }}" class="collapsible">{{ subcategory.subtitle }}</a>
+							<div id="{{ dale.id }}-{{ subcategory.id }}" class="panel-collapse collapse">
+								<ul class="subMenu2">
+									{% for subcategory2 in subcategory.subcategories %}
+									<li>
+										<a href="{{ site.url }}{{ subcategory2.subhref }}" id="{{ dale.id }}-{{ subcategory.id }}-{{ subcategory2.id }}">{{ subcategory2.subtitle }}</a>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+							{% else %}
+							<a href="{{ site.url }}{{ subcategory.subhref }}" id="{{ dale.id }}-{{ subcategory.id }}">{{ subcategory.subtitle }}</a>
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>

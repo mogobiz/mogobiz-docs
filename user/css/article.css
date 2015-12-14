@@ -1,0 +1,18 @@
+.article img{
+	max-width: 100%;
+	display: block;
+	margin: 7px 0px;
+}
+
+.article code{
+	padding: 0px 3px;
+	font-size: 100%;
+	color: #333;
+	background-color: #FFFF00;
+	border-radius: 0px;
+	font-family: Raleway-Medium;
+}
+
+.article p{
+	margin: 20px 0px;
+}
