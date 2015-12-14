@@ -35,4 +35,7 @@ Click on the product you created to create its settings.
 
 * The message "File successfully updated" will appear. You can visualize your picture in the **Photo** field.
 * Check the **Publication active** box if you want for this product description to be displayed on your online store.
-* Click on **Close** to save your Description settings, or on **Cancel** if you don't want to pursue the product creation. `Les settings de couleur/ variation associée ne sont pas sauvegardés lorsque l’on retourne sur le produit ultérieurement.`
+* Click on **Close** to save your Description settings, or on **Cancel** if you don't want to pursue the product creation. `Les settings de couleur/ variation associée ne sont pas sauvegardés lorsque l'on retourne sur le produit ultérieurement.`
+
+<img src="{{ site.baseurl }}/images/product/description/6.png"/>
+When you click on the picture, you can visualize the color variations to which the image is associated.` Fonction ne fonctionne pas?`

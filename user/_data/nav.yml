@@ -95,3 +95,11 @@
 - title: "Translation"
   id: "translation"
   href: "translation"
+
+- title: "External Apis"
+  id: "external"
+  subcategories:
+    - subtitle: "Run Api"
+      subhref: "http://www.mogobiz.com/doc/biz/"
+    - subtitle: "Pay Api"
+      subhref: "http://www.mogobiz.com/doc/pay/"

@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	$("#toTop").scrollToTop({
+		"speed" : 300,
+		"offset": 80
+	});
 	$(".leftMenu .collapsible").bind("click", function(){
 		$(this).parent().toggleClass("expanded").toggleClass("collapsed");
 	});

@@ -10,11 +10,11 @@ As set up in the user's profile, the user can access several stores from the top
 The user can see its profile's details\\
 or\\
 The user can choose to disconnect from the far top right drop down menu by clicking on **Disconnect**, at any time.\\
-Example of a user’s profile details (see the Users section to know how to create a user profile) :
+Example of a user's profile details (see the Users section to know how to create a user profile) :
 
 <img src="{{ site.baseurl }}/images/storeManagement/presentation/3.png"/>
 `Idem, peut on mettre un autre user que moi?`\\
-Click on **Close** to close the user’s profile screen and go back to the Store management screen\\
+Click on **Close** to close the user's profile screen and go back to the Store management screen\\
 Or\\
 Click on **Change Password** to reset your password
 

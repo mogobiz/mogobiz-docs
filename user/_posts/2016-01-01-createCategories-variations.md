@@ -3,11 +3,11 @@ layout: article
 title: Variations
 permalink: createCategories/variations
 ---
-###This section defines all the variations, which are the product/service properties values - that will vary according to customers’ orders and stock availability - an item can have (colors, sizes etc.).
+###This section defines all the variations, which are the product/service properties values - that will vary according to customers' orders and stock availability - an item can have (colors, sizes etc.).
 
 <img src="{{ site.baseurl }}/images/createCategories/variations/1.png"/>
 To create a variation, click on **Add a new Variation**.\\
-`Je ne peux pas mettre une copie d’écran vide (sans variation) parce que je n’arrive pas à supprimer cette variation (lorsque je supprime les produits créés ils ne sont pas supprimés).`
+`Je ne peux pas mettre une copie d'écran vide (sans variation) parce que je n'arrive pas à supprimer cette variation (lorsque je supprime les produits créés ils ne sont pas supprimés).`
 
 <img src="{{ site.baseurl }}/images/createCategories/variations/2.png"/>
 

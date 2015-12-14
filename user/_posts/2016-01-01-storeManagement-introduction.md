@@ -13,7 +13,7 @@ Click on **My Store**
 * Enter your email and password attributed by your administrator and sent to you by email, and click **Log In**.
 * If you forgot your password click on **Forgot Password**.
 
-If you’ve clicked on **Forgot Password** :
+If you've clicked on **Forgot Password** :
 <img src="{{ site.baseurl }}/images/storeManagement/introduction/3.png"/>
 
 * Enter your email address in the **Email address** field

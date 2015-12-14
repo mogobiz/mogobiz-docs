@@ -5,9 +5,9 @@
 
 	<body>
 		<input type="hidden" id="baseUrl" value="{{ site.baseurl }}"/>
-		<div id="top" name="top"></div>
 		<div class="container size14">
 			{% include header.html %}
+			<a href="#top" id="toTop"></a>
 			<div class="row top-space">
 				{% include menu.html %}
 				{{ content }}

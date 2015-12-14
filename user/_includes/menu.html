@@ -17,7 +17,6 @@
 				<div class="panel-body">
 					<ul class="subMenu">
 						{% for subcategory in dale.subcategories %}
-						{% assign index2 = forloop.index %}
 						<li class="{% if subcategory.subcategories != null %}parent collapsed{% endif %}">
 							{% if subcategory.subcategories != null %}
 							<a data-toggle="collapse" href="#{{ dale.id }}-{{ subcategory.id }}" class="collapsible">{{ subcategory.subtitle }}</a>
@@ -31,7 +30,11 @@
 								</ul>
 							</div>
 							{% else %}
+							{% if dale.id == "external" %}
+							<a href="{{ subcategory.subhref }}" target="_blank">{{ subcategory.subtitle }}</a>
+							{% else %}
 							<a href="{{ site.url }}{{ subcategory.subhref }}" id="{{ dale.id }}-{{ subcategory.id }}">{{ subcategory.subtitle }}</a>
+							{% endif %}
 							{% endif %}
 						</li>
 						{% endfor %}
