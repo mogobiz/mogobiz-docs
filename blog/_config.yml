@@ -5,6 +5,9 @@ highlighter:	pygments
 # Permalinks
 permalink:		pretty
 
+#plugins
+gems: [jekyll-paginate]
+
 # Setup
 title:			'Mogobiz Blog'
 url:			http://www.mogobiz.com/blog
