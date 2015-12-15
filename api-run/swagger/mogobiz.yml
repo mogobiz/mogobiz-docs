@@ -749,17 +749,21 @@ paths:
 
 
   /cart/list-shipping-prices:
-    post:
+    get:
       summary: Get all shipping prices.
       parameters:
-        - name: params
-          in: body
-          description: Parameters needed to get the list.
+        - name: cartProvider
+          in: query
+          description: Cart provider.
           required: true
-          schema:
-            $ref: '#/definitions/listShippingPricesParams'
+          type: string
+        - name: cartKeys
+          in: query
+          description: Cart keys.
+          required: true
+          type: string
       tags:
-        - Transaction
+        - Cart
       responses:
         200:
           description: OK.
@@ -771,7 +775,6 @@ paths:
           description: Forbidden if user not connected or session expired.
           schema:
             $ref: "#/definitions/error"
-
 
 # Category Services
   /categories:
@@ -5119,15 +5122,4 @@ parameters:
         type: string
         format: email
       externalCode:
-        type: string
-
-  listShippingPricesParams:
-    type: object
-    required:
-      - cartProvider
-      - cartKeys
-    properties:
-      cartProvider:
-        type: string
-      cartKeys:
         type: string
