@@ -5,7 +5,7 @@
 		<div class="top-mini-space links">
 			<a href="{{site.baseurl}}/" class="tagBtn">All tags</a>
 			{% for tag in site.tags %}
-				<a href="{{site.baseurl}}/tag/{{ tag[0] }}" class="tagBtn">{{ tag[0] }}</a>
+				<a href="{{site.baseurl}}/{{site.tag_dir}}/{{ tag | first }}" class="tagBtn">{{ tag | first }}</a>
 			{% endfor %}
 		</div>
 	</div>

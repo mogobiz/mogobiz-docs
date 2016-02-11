@@ -14,6 +14,7 @@ url:			http://www.mogobiz.com/blog
 baseurl:		/blog
 encoding:		utf-8
 paginate:		4
+tag_dir:		'tags'
 
 author:
   name:			'Ahmad Ibrahim'

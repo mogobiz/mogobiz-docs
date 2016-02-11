@@ -5,9 +5,7 @@ layout: default
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 		<div class="articles">
 			{% assign firstPost = true %}
-			{% for post in site.posts %}
-			{% for tag in post.tags %}
-			{% if tag == page.tag %}
+			{% for post in site.tags[page.tag] %}
 			{% if firstPost == true %}
 			{% assign firstPost = false %}
 			<div class="row">
@@ -43,13 +41,13 @@ layout: default
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 noPadding">
-					{% if post.image %}
-					<img src="{{ post.image }}"/><!-- IMAGE -->
+					{% if post.smallPic %}
+					<img src="{{ post.smallPic }}"/>
+					{% else if post.largePic %}
+					<img src="{{ post.largePic }}"/>
 					{% endif %}
 				</div>
 			</div>
-			{% endif %}
-			{% endfor %}
 			{% endfor %}
 		</div>
 
