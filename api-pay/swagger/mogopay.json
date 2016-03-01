@@ -14,11 +14,11 @@
         "application/json"
     ],
     "paths": {
-        "/customer-token": {
+        "/account/customer-token": {
             "get": {
                 "summary": "Get a new customer token",
                 "tags": [
-                    "Account"
+                    "debug"
                 ],
                 "responses": {
                     "200": {
@@ -30,11 +30,11 @@
                 }
             }
         },
-        "/merchant-token": {
+        "/account/merchant-token": {
             "get": {
                 "summary": "Get a new merchant token",
                 "tags": [
-                    "Account"
+                    "debug"
                 ],
                 "responses": {
                     "200": {
@@ -46,7 +46,7 @@
                 }
             }
         },
-        "/check-token-validity": {
+        "/account/check-token-validity": {
             "get": {
                 "summary": "Check token validity",
                 "parameters": [
@@ -60,7 +60,7 @@
                     }
                 ],
                 "tags": [
-                    "Account"
+                    "debug"
                 ],
                 "responses": {
                     "200": {
@@ -84,14 +84,14 @@
                 }
             }
         },
-        "/is-pattern-valid": {
+        "/account/validate/pattern/{pattern}": {
             "get": {
                 "summary": "Check password pattern validity",
                 "description": "The merchant may impose some restrictions on the password format allowed for its customers.This service allows to check the password regex validity.\n",
                 "parameters": [
                     {
                         "name": "pattern",
-                        "in": "query",
+                        "in": "path",
                         "description": "Pattern as a Java regular expression .",
                         "required": true,
                         "type": "string",
@@ -99,7 +99,8 @@
                     }
                 ],
                 "tags": [
-                    "Account"
+                    "Account",
+                    "validation"
                 ],
                 "responses": {
                     "200": {
@@ -108,7 +109,7 @@
                 }
             }
         },
-        "/already-exist-email": {
+        "/account/validate/email": {
             "get": {
                 "summary": "Check if the email is already used.",
                 "parameters": [
@@ -138,7 +139,8 @@
                     }
                 ],
                 "tags": [
-                    "Account"
+                    "Account",
+                    "validation"
                 ],
                 "responses": {
                     "200": {
@@ -153,7 +155,7 @@
                 }
             }
         },
-        "/is-valid-account-id": {
+        "/account/validate": {
             "get": {
                 "summary": "Check if the account is valid.",
                 "parameters": [
@@ -167,7 +169,8 @@
                     }
                 ],
                 "tags": [
-                    "Account"
+                    "Account",
+                    "validation"
                 ],
                 "responses": {
                     "200": {
@@ -193,23 +196,149 @@
                 }
             }
         },
-        "/update-password": {
+        "/account/signup": {
+            "post": {
+                "summary": "Register a new account.",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to register",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/signupParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "token",
+                                "account"
+                            ],
+                            "properties": {
+                                "uuid": {
+                                    "token": "string"
+                                },
+                                "account": {
+                                    "$ref": "#/definitions/account"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized if invalid informations or an other account with the same email already exist.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/confirm-signup": {
             "get": {
+                "summary": "Confirm account signing up via token.",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Secret token send it via email",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "410": {
+                        "description": "Token expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/login": {
+            "post": {
+                "summary": "Login.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to login",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/loginParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized if invalid credentials or invalid merchant or too many login attempts or inactive account.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/logout": {
+            "post": {
+                "summary": "Signing out.",
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empty response."
+                    }
+                }
+            }
+        },
+        "/account/update-password": {
+            "post": {
                 "summary": "Update account password.",
                 "parameters": [
                     {
-                        "name": "current_password",
-                        "in": "query",
-                        "description": "Account current password",
+                        "name": "params",
+                        "in": "body",
+                        "description": "current and new password",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "new_password",
-                        "in": "query",
-                        "description": "New password to be set",
-                        "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/updatePasswordParams"
+                        }
                     }
                 ],
                 "tags": [
@@ -234,8 +363,32 @@
                 }
             }
         },
-        "/generate-new-phone-code": {
-            "get": {
+        "/account/send-new-password": {
+            "post": {
+                "summary": "Send new password to email.",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to send a new password",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sendNewPasswordParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    }
+                }
+            }
+        },
+        "/account/generate-new-phone-code": {
+            "post": {
                 "summary": "Send code via sms.",
                 "tags": [
                     "Account"
@@ -253,25 +406,43 @@
                 }
             }
         },
-        "/enroll": {
-            "get": {
+        "/account/generate-new-secret": {
+            "post": {
+                "summary": "Generate new secret code.",
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "404": {
+                        "description": "If account not found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/enroll": {
+            "post": {
                 "summary": "Update user phone number.",
                 "parameters": [
                     {
-                        "name": "lphone",
-                        "in": "query",
+                        "name": "params",
+                        "in": "body",
                         "description": "New phone number in local format",
                         "required": true,
-                        "type": "string",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "pin_code",
-                        "in": "query",
-                        "description": "Secret code",
-                        "required": true,
-                        "type": "string",
-                        "format": "int32"
+                        "schema": {
+                            "$ref": "#/definitions/enrollParams"
+                        }
                     }
                 ],
                 "tags": [
@@ -296,230 +467,9 @@
                 }
             }
         },
-        "/generate-new-secret": {
-            "get": {
-                "summary": "Generate new secret code.",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK."
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "404": {
-                        "description": "If account not found.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/add-credit-card": {
-            "get": {
-                "summary": "Add or update credit card.",
-                "parameters": [
-                    {
-                        "name": "card_id",
-                        "in": "query",
-                        "description": "Credit card id in case of update",
-                        "required": false,
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    {
-                        "name": "holder",
-                        "in": "query",
-                        "description": "Credit card holder name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Credit card number",
-                        "required": false,
-                        "type": "string",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "expiry_date",
-                        "in": "query",
-                        "description": "Credit card expiration date",
-                        "required": true,
-                        "type": "string",
-                        "format": "date"
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "Credit card type",
-                        "required": true,
-                        "type": "string",
-                        "format": "CB|VISA|MASTER_CARD|DISCOVER|AMEX|SWITCH|SOLO|OTHER"
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/creditCard"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found or credit card not found in case of update.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/delete-credit-card": {
-            "get": {
-                "summary": "Remove credit card.",
-                "parameters": [
-                    {
-                        "name": "card_id",
-                        "in": "query",
-                        "description": "Id of the credit card to be deleted",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK if card is successfully removed."
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found or credit card not found.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/logout": {
-            "get": {
-                "summary": "Signing out.",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Empty response."
-                    }
-                }
-            }
-        },
-        "/billing-address": {
-            "get": {
-                "summary": "Return the billing address.",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/accountAddress"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "404": {
-                        "description": "If no address found.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/shipping-addresses": {
-            "get": {
-                "summary": "Return a list of all shipping addresses for an account.",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/shippingAddress"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/shipping-address": {
-            "get": {
-                "summary": "Return the current shipping address of an account.",
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/shippingAddress"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "404": {
-                        "description": "If no address found.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/profile-info": {
+        "/account/profile": {
             "get": {
                 "summary": "Get the user profile info.",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "description": "Requested account email",
-                        "required": true,
-                        "type": "string",
-                        "format": "email"
-                    }
-                ],
                 "tags": [
                     "Account"
                 ],
@@ -575,103 +525,18 @@
                         }
                     }
                 }
-            }
-        },
-        "/assign-billing-address": {
-            "get": {
-                "summary": "Change current billing address.",
+            },
+            "put": {
+                "summary": "Update some profile info.",
                 "parameters": [
                     {
-                        "name": "firstname",
-                        "in": "query",
-                        "description": "First name",
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to update info.",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lastname",
-                        "in": "query",
-                        "description": "Last name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "civility",
-                        "in": "query",
-                        "description": "Civility",
-                        "required": true,
-                        "type": "string",
-                        "format": "MR|MRS"
-                    },
-                    {
-                        "name": "company",
-                        "in": "query",
-                        "description": "Company name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "country",
-                        "in": "query",
-                        "description": "Country",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin1",
-                        "in": "query",
-                        "description": "State",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin2",
-                        "in": "query",
-                        "description": "Region",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "city",
-                        "in": "query",
-                        "description": "City name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road",
-                        "in": "query",
-                        "description": "Road name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road2",
-                        "in": "query",
-                        "description": "Supplementary road",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lphone",
-                        "in": "query",
-                        "description": "Phone number in local format",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "zip_code",
-                        "in": "query",
-                        "description": "Zip code",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "extra",
-                        "in": "query",
-                        "description": "Extra information about the address",
-                        "required": false,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/updateProfileLightParams"
+                        }
                     }
                 ],
                 "tags": [
@@ -681,8 +546,14 @@
                     "200": {
                         "description": "OK."
                     },
+                    "400": {
+                        "description": "if password didn't match.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
                     "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "description": "Unauthorized if user not connected or session expired or password didn't match.",
                         "schema": {
                             "$ref": "#/definitions/error"
                         }
@@ -690,101 +561,18 @@
                 }
             }
         },
-        "/add-shipping-address": {
-            "get": {
-                "summary": "Add a billing address.",
+        "/account/profile/customer": {
+            "post": {
+                "summary": "Update profile for a customer.",
                 "parameters": [
                     {
-                        "name": "firstname",
-                        "in": "query",
-                        "description": "First name",
+                        "name": "params",
+                        "in": "body",
+                        "description": "Parameters needed to update all profile info.",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lastname",
-                        "in": "query",
-                        "description": "Last name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "civility",
-                        "in": "query",
-                        "description": "Civility",
-                        "required": true,
-                        "type": "string",
-                        "format": "MR|MRS"
-                    },
-                    {
-                        "name": "company",
-                        "in": "query",
-                        "description": "Company name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "country",
-                        "in": "query",
-                        "description": "Country",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin1",
-                        "in": "query",
-                        "description": "State",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin2",
-                        "in": "query",
-                        "description": "Region",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "city",
-                        "in": "query",
-                        "description": "City name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road",
-                        "in": "query",
-                        "description": "Road name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road2",
-                        "in": "query",
-                        "description": "Supplementary road",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lphone",
-                        "in": "query",
-                        "description": "Phone number in local format",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "zip_code",
-                        "in": "query",
-                        "description": "Zip code",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "extra",
-                        "in": "query",
-                        "description": "Extra information about the address",
-                        "required": false,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/updateProfileParams"
+                        }
                     }
                 ],
                 "tags": [
@@ -794,8 +582,14 @@
                     "200": {
                         "description": "OK."
                     },
+                    "400": {
+                        "description": "if password didn't match or no payment provider specified or no payment methode specified or missing group payment.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
                     "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "description": "Unauthorized if user not connected or session expired or invalid informations.",
                         "schema": {
                             "$ref": "#/definitions/error"
                         }
@@ -803,101 +597,18 @@
                 }
             }
         },
-        "/update-shipping-address": {
-            "get": {
-                "summary": "Update an existing billing address.",
+        "/account/credit-cards": {
+            "post": {
+                "summary": "Add or update credit card.",
                 "parameters": [
                     {
-                        "name": "firstname",
-                        "in": "query",
-                        "description": "First name",
+                        "name": "params",
+                        "in": "body",
+                        "descriptions": "Parameters for adding or updating credit-cards",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lastname",
-                        "in": "query",
-                        "description": "Last name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "civility",
-                        "in": "query",
-                        "description": "Civility",
-                        "required": true,
-                        "type": "string",
-                        "format": "MR|MRS"
-                    },
-                    {
-                        "name": "company",
-                        "in": "query",
-                        "description": "Company name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "country",
-                        "in": "query",
-                        "description": "Country",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin1",
-                        "in": "query",
-                        "description": "State",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "admin2",
-                        "in": "query",
-                        "description": "Region",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "city",
-                        "in": "query",
-                        "description": "City name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road",
-                        "in": "query",
-                        "description": "Road name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "road2",
-                        "in": "query",
-                        "description": "Supplementary road",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "lphone",
-                        "in": "query",
-                        "description": "Phone number in local format",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "zip_code",
-                        "in": "query",
-                        "description": "Zip code",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "extra",
-                        "in": "query",
-                        "description": "Extra information about the address",
-                        "required": false,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/creditCardParams"
+                        }
                     }
                 ],
                 "tags": [
@@ -905,10 +616,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK."
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/creditCard"
+                        }
                     },
                     "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "description": "Unauthorized if user not connected or session expired or account not found or credit card not found in case of update.",
                         "schema": {
                             "$ref": "#/definitions/error"
                         }
@@ -916,14 +630,14 @@
                 }
             }
         },
-        "/delete-shipping-address": {
-            "get": {
-                "summary": "Delete specified billing address.",
+        "/account/credit-cards/{card_id}": {
+            "delete": {
+                "summary": "Remove credit card.",
                 "parameters": [
                     {
-                        "name": "address_id",
-                        "in": "query",
-                        "description": "Id of billing address to be deleted",
+                        "name": "card_id",
+                        "in": "path",
+                        "description": "Id of the credit card to be deleted",
                         "required": true,
                         "type": "string",
                         "format": "uuid"
@@ -934,10 +648,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK."
+                        "description": "OK if card is successfully removed."
                     },
                     "401": {
-                        "description": "Unauthorized if user not connected or session expired.",
+                        "description": "Unauthorized if user not connected or session expired or account not found or credit card not found.",
                         "schema": {
                             "$ref": "#/definitions/error"
                         }
@@ -945,9 +659,67 @@
                 }
             }
         },
-        "/active-country-state-shipping": {
+        "/account/shipping-addresses": {
+            "post": {
+                "summary": "Add a shipping address.",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "shipping address informations",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/shippingAddressParam"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/shipping-addresses/active": {
             "get": {
-                "summary": "Get the country and state of tha active shipping address.",
+                "summary": "Return the current active shipping address of an account.",
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/shippingAddress"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "404": {
+                        "description": "If no address found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/shipping-addresses/active-location": {
+            "get": {
+                "summary": "Get the country and state of the active shipping address.",
                 "tags": [
                     "Account"
                 ],
@@ -984,7 +756,157 @@
                 }
             }
         },
-        "/list-compagnies": {
+        "/account/shipping-addresses/{addressId}": {
+            "put": {
+                "summary": "Update an existing shipping address.",
+                "parameters": [
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "description": "Id of shipping address to be updated",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "addressData",
+                        "in": "body",
+                        "description": "shipping address informations",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/shippingAddressParam"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete specified shipping address.",
+                "parameters": [
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "description": "Id of shipping address to be deleted",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/shipping-addresses/{addressId}/active": {
+            "put": {
+                "summary": "Update account shipping address.",
+                "parameters": [
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "description": "Id of the selected address",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/billing-address": {
+            "get": {
+                "summary": "Return the billing address.",
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/accountAddress"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    },
+                    "404": {
+                        "description": "If no address found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Change current billing address.",
+                "parameters": [
+                    {
+                        "name": "params",
+                        "in": "body",
+                        "description": "shipping address informations",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/shippingAddressParam"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    },
+                    "401": {
+                        "description": "Unauthorized if user not connected or session expired or account not found.",
+                        "schema": {
+                            "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/companies": {
             "get": {
                 "summary": "Get the list of companies.",
                 "tags": [
@@ -1009,7 +931,7 @@
                 }
             }
         },
-        "/list-merchants": {
+        "/account/merchants": {
             "get": {
                 "summary": "Get the list of all merchants.",
                 "tags": [
@@ -1032,246 +954,6 @@
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        },
-        "/select-shipping-address": {
-            "get": {
-                "summary": "Update account shipping address.",
-                "parameters": [
-                    {
-                        "name": "address_id",
-                        "in": "query",
-                        "description": "Id of the selected address",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK."
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired or account not found.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/confirm-signup": {
-            "get": {
-                "summary": "Confirm account signing up via token.",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Secret token send it via email",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/account"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid token.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "410": {
-                        "description": "Token expired.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/send-new-password": {
-            "post": {
-                "summary": "Send new password to email.",
-                "parameters": [
-                    {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to send a new password",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sendNewPasswordParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK."
-                    }
-                }
-            }
-        },
-        "/login": {
-            "post": {
-                "summary": "Login.",
-                "parameters": [
-                    {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to login",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/loginParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/account"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if invalid credentials or invalid merchant or too many login attempts or inactive account.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/signup": {
-            "post": {
-                "summary": "Register a new account.",
-                "parameters": [
-                    {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to register",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/signupParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "token",
-                                "account"
-                            ],
-                            "properties": {
-                                "uuid": {
-                                    "token": "string"
-                                },
-                                "account": {
-                                    "$ref": "#/definitions/account"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if invalid informations or an other account with the same email already exist.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/update-customer-profile": {
-            "post": {
-                "summary": "Update profile for a customer.",
-                "parameters": [
-                    {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to update all profile info.",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/updateProfileParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK."
-                    },
-                    "400": {
-                        "description": "if password didn't match or no payment provider specified or no payment methode specified or missing group payment.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired or invalid informations.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/update-profile-light": {
-            "post": {
-                "summary": "Update some profile info.",
-                "parameters": [
-                    {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to update info.",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/updateProfileLightParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK."
-                    },
-                    "400": {
-                        "description": "if password didn't match.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized if user not connected or session expired or password didn't match.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
                         }
                     }
                 }
@@ -1315,6 +997,36 @@
                         "description": "Unauthorized if user not connected or connected user isn't a merchant.",
                         "schema": {
                             "$ref": "#/definitions/error"
+                        }
+                    }
+                }
+            }
+        },
+        "/customers/{uuid}/transactions": {
+            "get": {
+                "summary": "Get all customer transactions.",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "tags": [
+                    "Backoffice",
+                    "Transaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/transaction"
+                            }
                         }
                     }
                 }
@@ -1396,7 +1108,8 @@
                     }
                 ],
                 "tags": [
-                    "Backoffice"
+                    "Backoffice",
+                    "Transaction"
                 ],
                 "responses": {
                     "200": {
@@ -1417,6 +1130,33 @@
                 }
             }
         },
+        "/transactions/{transactionId}": {
+            "get": {
+                "summary": "Get transaction details.",
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "Transaction id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "tags": [
+                    "Backoffice",
+                    "Transaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "$ref": "#/definitions/transaction"
+                        }
+                    }
+                }
+            }
+        },
         "/transactions/{transactionId}/logs": {
             "get": {
                 "summary": "Get list of all log for a transaction.",
@@ -1431,7 +1171,8 @@
                     }
                 ],
                 "tags": [
-                    "Backoffice"
+                    "Backoffice",
+                    "Transaction"
                 ],
                 "responses": {
                     "200": {
@@ -1446,33 +1187,7 @@
                 }
             }
         },
-        "/transaction/{uuid}": {
-            "get": {
-                "summary": "Get transaction details.",
-                "parameters": [
-                    {
-                        "name": "uuid",
-                        "in": "path",
-                        "description": "Transaction id",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "tags": [
-                    "Backoffice"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "$ref": "#/definitions/transaction"
-                        }
-                    }
-                }
-            }
-        },
-        "/countries-for-shipping": {
+        "/countries/for-shipping": {
             "get": {
                 "summary": "Get list of all countries we can ship for.",
                 "tags": [
@@ -1491,7 +1206,7 @@
                 }
             }
         },
-        "/countries-for-billing": {
+        "/countries/for-billing": {
             "get": {
                 "summary": "Get list of all countries we can bill for.",
                 "tags": [
@@ -1510,12 +1225,12 @@
                 }
             }
         },
-        "/country/{code}": {
+        "/countries/{countryCode}": {
             "get": {
                 "summary": "Get country by code.",
                 "parameters": [
                     {
-                        "name": "code",
+                        "name": "countryCode",
                         "in": "path",
                         "required": true,
                         "description": "Country code",
@@ -1535,7 +1250,7 @@
                 }
             }
         },
-        "/admins1/{countryCode}": {
+        "/countries/{countryCode}/admins1": {
             "get": {
                 "summary": "Get country states.",
                 "parameters": [
@@ -1563,12 +1278,47 @@
                 }
             }
         },
-        "/admins2/{admin1}": {
+        "/countries/{countryCode}/states": {
             "get": {
-                "summary": "Get state regions.",
+                "summary": "Get country states.",
                 "parameters": [
                     {
-                        "name": "admin1",
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/countryAdmin"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/admins1/{admin1Code}": {
+            "get": {
+                "summary": "Get state info.",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country code",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "admin1Code",
                         "in": "path",
                         "description": "State code",
                         "required": true,
@@ -1591,15 +1341,120 @@
                 }
             }
         },
-        "/cities": {
+        "/countries/{countryCode}/states/{stateCode}": {
             "get": {
-                "summary": "Get a list of cities.",
+                "summary": "Get state info.",
                 "parameters": [
                     {
-                        "name": "country",
-                        "in": "query",
+                        "name": "countryCode",
+                        "in": "path",
                         "description": "Country code",
-                        "required": false,
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "stateCode",
+                        "in": "path",
+                        "description": "State code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/countryAdmin"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/admins1/{admin1Code}/admins2": {
+            "get": {
+                "summary": "Get state regions.",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country code",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "admin1Code",
+                        "in": "path",
+                        "description": "State code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/countryAdmin"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/states/{stateCode}/regions": {
+            "get": {
+                "summary": "Get state regions.",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country code",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "stateCode",
+                        "in": "path",
+                        "description": "State code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/countryAdmin"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/cities": {
+            "get": {
+                "summary": "Get a list of cities of a country.",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country code",
+                        "required": true,
                         "type": "string"
                     },
                     {
@@ -1640,8 +1495,8 @@
                 }
             }
         },
-        "/{countryCode}/check-phone-number/{phone}": {
-            "get": {
+        "/countries/{countryCode}/check-phone-number/{phone}": {
+            "post": {
                 "summary": "Get a list of cities.",
                 "parameters": [
                     {
@@ -1675,7 +1530,7 @@
                 }
             }
         },
-        "/html-to-pdf": {
+        "/pdf/html-to-pdf": {
             "post": {
                 "summary": "Convert an html file to pdf.",
                 "parameters": [
@@ -1702,7 +1557,7 @@
                 }
             }
         },
-        "/list": {
+        "/rates": {
             "get": {
                 "summary": "Get list of all rates.",
                 "tags": [
@@ -1721,7 +1576,7 @@
                 }
             }
         },
-        "/format": {
+        "/rates/format": {
             "get": {
                 "summary": "Get formatted rate.",
                 "parameters": [
@@ -1761,7 +1616,7 @@
                 }
             }
         },
-        "/register": {
+        "/user/register": {
             "get": {
                 "summary": "Register a new user.",
                 "parameters": [
@@ -1824,42 +1679,21 @@
                 }
             }
         },
-        "/customer/{uuid}": {
-            "get": {
-                "summary": "Get all customer transactions.",
-                "parameters": [
-                    {
-                        "name": "uuid",
-                        "in": "path",
-                        "description": "Customer id",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "tags": [
-                    "Transaction"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/transaction"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/verify": {
-            "get": {
+        "/transactions/{transaction_id}/verify": {
+            "post": {
                 "summary": "Verify a transaction.",
                 "parameters": [
                     {
+                        "name": "transaction_id",
+                        "in": "path",
+                        "description": "Transaction id",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
                         "name": "merchant_secret",
-                        "in": "query",
+                        "in": "body",
                         "description": "Merchant secret code",
                         "required": true,
                         "type": "string",
@@ -1867,19 +1701,11 @@
                     },
                     {
                         "name": "transaction_amount",
-                        "in": "query",
+                        "in": "body",
                         "description": "Transaction amount",
                         "required": false,
                         "type": "integer",
                         "format": "int64"
-                    },
-                    {
-                        "name": "transaction_id",
-                        "in": "query",
-                        "description": "Transaction id",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
                     }
                 ],
                 "tags": [
@@ -1904,55 +1730,55 @@
                 }
             }
         },
-        "/init-group-payment": {
-            "get": {
+        "/transactions/init-group-payment": {
+            "post": {
                 "summary": "Initialise a new groupo payment.",
                 "parameters": [
                     {
                         "name": "token",
-                        "in": "query",
+                        "in": "body",
                         "description": "Secret code",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "transaction_type",
-                        "in": "query",
+                        "in": "body",
                         "description": "Transaction type",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "card_type",
-                        "in": "query",
+                        "in": "body",
                         "description": "Credit card type",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "card_number",
-                        "in": "query",
+                        "in": "body",
                         "description": "Credit card number",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "card_cvv",
-                        "in": "query",
+                        "in": "body",
                         "description": "Credit card secret code",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "card_month",
-                        "in": "query",
+                        "in": "body",
                         "description": "Credit card expiration month",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "card_year",
-                        "in": "query",
+                        "in": "body",
                         "description": "Credit card expiration month",
                         "required": true,
                         "type": "string"
@@ -1983,13 +1809,13 @@
                 }
             }
         },
-        "/refund": {
-            "get": {
+        "/transactions/refund": {
+            "post": {
                 "summary": "Refund a transaction amount.",
                 "parameters": [
                     {
                         "name": "merchant_secret",
-                        "in": "query",
+                        "in": "body",
                         "description": "Merchant secret code",
                         "required": true,
                         "type": "string",
@@ -1997,7 +1823,7 @@
                     },
                     {
                         "name": "amount",
-                        "in": "query",
+                        "in": "body",
                         "description": "Amount to be refunded",
                         "required": true,
                         "type": "integer",
@@ -2005,7 +1831,7 @@
                     },
                     {
                         "name": "bo_transaction_uuid",
-                        "in": "query",
+                        "in": "body",
                         "description": "Transaction uuid",
                         "required": true,
                         "type": "string",
@@ -2034,7 +1860,7 @@
                 }
             }
         },
-        "/download/{transactionUuid}": {
+        "/transactions/{transactionUuid}/download": {
             "get": {
                 "summary": "Refund a transaction amount.",
                 "parameters": [
@@ -2080,7 +1906,7 @@
                 }
             }
         },
-        "/init": {
+        "/transactions/init": {
             "post": {
                 "summary": "Initialise transaction payment.",
                 "parameters": [
@@ -2122,7 +1948,7 @@
                 }
             }
         },
-        "/select-shipping": {
+        "/transactions/select-shipping": {
             "post": {
                 "summary": "Get a shipping price.",
                 "parameters": [
@@ -2155,58 +1981,13 @@
                 }
             }
         },
-        "/submit": {
+        "/transactions/submit": {
             "post": {
                 "summary": "Submit payment.",
                 "parameters": [
                     {
-                        "name": "params",
-                        "in": "body",
-                        "description": "Parameters needed to submit the payment.",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/submitPayParams"
-                        }
-                    }
-                ],
-                "tags": [
-                    "Transaction"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "If the payers list does not contain the current user or the payers amount and the total amout does not match.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "401": {
-                        "description": "If invalid merchant id.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    },
-                    "500": {
-                        "description": "If failed to pay.",
-                        "schema": {
-                            "$ref": "#/definitions/error"
-                        }
-                    }
-                }
-            }
-        },
-        "/submit/{sessionUuid}": {
-            "post": {
-                "summary": "Submit payment via session id.",
-                "parameters": [
-                    {
-                        "name": "sessionUuid",
-                        "in": "path",
+                        "name": "session_id",
+                        "in": "query",
                         "description": "Session id.",
                         "required": true,
                         "type": "string",
@@ -3456,6 +3237,40 @@
                 }
             }
         },
+        "enrollParams": {
+            "type": "object",
+            "required": [
+                "lphone",
+                "pin_code"
+            ],
+            "properties": {
+                "lphone": {
+                    "type": "string",
+                    "format": "int32"
+                },
+                "pin_code": {
+                    "type": "string",
+                    "format": "int32"
+                }
+            }
+        },
+        "updatePasswordParams": {
+            "type": "object",
+            "required": [
+                "current_password",
+                "new_password"
+            ],
+            "properties": {
+                "current_password": {
+                    "type": "string",
+                    "format": "password"
+                },
+                "new_password": {
+                    "type": "string",
+                    "format": "password"
+                }
+            }
+        },
         "loginParams": {
             "type": "object",
             "required": [
@@ -3796,6 +3611,91 @@
                 }
             }
         },
+        "creditCardParams": {
+            "type": "object",
+            "required": [
+                "holder",
+                "date",
+                "type"
+            ],
+            "properties": {
+                "card_id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "holder": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string",
+                    "format": "int32"
+                },
+                "expiry_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "type": {
+                    "type": "string",
+                    "format": "CB|VISA|MASTER_CARD|DISCOVER|AMEX|SWITCH|SOLO|OTHER"
+                }
+            }
+        },
+        "shippingAddressParam": {
+            "type": "object",
+            "required": [
+                "firstname",
+                "lastname",
+                "civility",
+                "country",
+                "admin1",
+                "city",
+                "road",
+                "lphone",
+                "zipcode"
+            ],
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "civility": {
+                    "type": "string",
+                    "format": "MR|MRS"
+                },
+                "company": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "admin1": {
+                    "type": "string"
+                },
+                "admin2": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "road": {
+                    "type": "string"
+                },
+                "road2": {
+                    "type": "string"
+                },
+                "lphone": {
+                    "type": "string"
+                },
+                "zipcode": {
+                    "type": "string"
+                },
+                "extra": {
+                    "type": "string"
+                }
+            }
+        },
         "pdfParams": {
             "type": "object",
             "required": [
@@ -3837,21 +3737,6 @@
                 "group_payment_refund_percentage": {
                     "type": "integer",
                     "format": "int32"
-                }
-            }
-        },
-        "listShippingParams": {
-            "type": "object",
-            "required": [
-                "cartProvider",
-                "cartKeys"
-            ],
-            "properties": {
-                "cartProvider": {
-                    "type": "string"
-                },
-                "cartKeys": {
-                    "type": "string"
                 }
             }
         },
