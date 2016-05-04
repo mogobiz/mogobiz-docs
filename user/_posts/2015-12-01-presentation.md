@@ -12,7 +12,7 @@ To set up the ecommerce platform, the administrator needs to first create **a st
 2. The **profiles** : users' authorizations to operate on one or several stores
 3. The **users**:  authentification informations of the users authorized to operate on one or several stores.
 
-<img src="{{ site.baseurl }}/images/presentation/1.png"/>
+![]({{ site.baseurl }}/images/presentation/1.png)
 
 Once the store is created, the ecommerce platform is organized as below:
 
@@ -23,4 +23,4 @@ Each product is created independently, with its own description and illustration
 4. Products. They have permanent features (materials, size, color) listed in the category section. Any product can vary - according to customers' requests and stock availability. These variations can include size or colors for example. Those variations are listed in the product section and create an SKU (Stock Keeping Units). 
 5. Each of these SKUs have then a unique feature value, hence a unique identifier referring to the particular SKU.
 
-<img src="{{ site.baseurl }}/images/presentation/2.png"/>
+![]({{ site.baseurl }}/images/presentation/2.png)

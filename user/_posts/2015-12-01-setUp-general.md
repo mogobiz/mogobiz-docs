@@ -5,7 +5,7 @@ permalink: setUp/general
 ---
 ###This section defines the general settings of your Mogobiz online store.
 
-<img src="{{ site.baseurl }}/images/setUp/companyGeneral/1.png"/>
+![]({{ site.baseurl }}/images/setUp/companyGeneral/1.png)
 In the window that pops up:
 
 * Your **Store Name**, **Store Code**, and **Email** address entered at the creation of your store are automatically populated.

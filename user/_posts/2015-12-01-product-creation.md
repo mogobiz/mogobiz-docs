@@ -5,10 +5,10 @@ permalink: product/creation
 ---
 ###This section describes how to create the products/services that will be displayed on your Mogobiz online store, belonging to the category created in the catalog.
 
-<img src="{{ site.baseurl }}/images/product/creation/1.png"/>
+![]({{ site.baseurl }}/images/product/creation/1.png)
 To create a product click on **Create**. `Même problème que mentionné plus haut: impossibilité de supprimer les produits`
 
-<img src="{{ site.baseurl }}/images/product/creation/2.png"/>
+![]({{ site.baseurl }}/images/product/creation/2.png)
 
 * Enter the product name in the **Name** field. This field is mandatory.
 * Enter the `unit code attributed during the store creation?`. This field is mandatory.

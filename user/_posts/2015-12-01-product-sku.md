@@ -5,11 +5,11 @@ permalink: product/sku
 ---
 ###This section defines the stock keeping unit (SKU) of the product/service. An SKU embodies all variations associated with the product/service and it distinguishes it from all other items.
 
-<img src="{{ site.baseurl }}/images/product/sku/1.png"/>
+![]({{ site.baseurl }}/images/product/sku/1.png)
 Click on **Add new variation**.
 `Prix` en français
 
-<img src="{{ site.baseurl }}/images/product/sku/2.png"/>
+![]({{ site.baseurl }}/images/product/sku/2.png)
 
 * In the **General** tab, enter The SKU code attributed during the product creation in the **SKU** field. This field is mandatory. 
 * In the **Availability date** field, enter the date at which the product is or will be available. 
@@ -27,7 +27,7 @@ Click on **Add new variation**.
 * Check the **Allow out of stock purchases** box if you want to allow the sale of an SKU that is not available in your stock.
 * Click **Create** to save and create your SKU variation or **Cancel** if you don't want to pursue.
 
-<img src="{{ site.baseurl }}/images/product/sku/3.png"/>
+![]({{ site.baseurl }}/images/product/sku/3.png)
 In the **Download** tab, click on `Choisissez un fichier` to upload `a file that contains your SKUs list?, in a ? format only…`\\
 Click on **Modify** to save the file, on **Cancel** if you don't want to pursue the upload, or **Delete** if you want to delete the Variation.
 
